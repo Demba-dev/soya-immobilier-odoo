@@ -20,6 +20,11 @@
     'depends': [
         'base', 
         'mail', 
+        'website',
+    ],
+
+    'demo': [
+        'demo/property_type_demo.xml',
     ],
     
     # FICHIERS DE DONNÉES ET DE VUES À CHARGER
@@ -33,6 +38,7 @@
         'views/property_views.xml',
         'views/property_type_views.xml',
         'views/property_offer_views.xml',
+        'views/property_web_templates.xml',
         
         # 3. Assistants (Wizards)
         'wizards/close_property_views.xml',
@@ -48,11 +54,6 @@
             'soya_estate/static/src/css/soya_estate.css',
         ],
     },
-    
-    # Fichiers de Démonstration (non nécessaires pour l'instant)
-    # 'demo': [
-    #     'demo/property_demo.xml',
-    # ],
     
     'installable': True,
     'application': True,

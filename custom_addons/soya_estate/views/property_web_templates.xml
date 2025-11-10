@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Template pour la liste des propriétés -->
+        <template id="properties_list_template" name="Liste des Biens Immobiliers">
+            <t t-call="website.layout">
+                <div id="wrap" class="container">
+                    <h1 class="mt-4 mb-4"><t t-esc="page_title"/></h1>
+                    <div class="row">
+                        <t t-if="not properties">
+                            <div class="col-12">
+                                <p class="alert alert-warning">Aucun bien immobilier n'est actuellement disponible.</p>
+                            </div>
+                        </t>
+                        <t t-foreach="properties" t-as="property">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100">
+                                    <a t-attf-href="/properties/{{ slug(property) }}">
+                                        <img class="card-img-top" t-attf-src="data:image/png;base64,{{ property.image }}" style="height: 200px; object-fit: cover;" alt="Image du bien"/>
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a t-attf-href="/properties/{{ slug(property) }}">
+                                                <t t-esc="property.name"/>
+                                            </a>
+                                        </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted"><t t-esc="property.property_type_id.name"/> - <t t-esc="property.quarter"/></h6>
+                                        <p class="card-text">
+                                            <strong>Prix : </strong>
+                                            <span t-field="property.expected_price" t-options='{"widget": "monetary", "display_currency": property.env.ref("base.XOF")}'/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Template pour la page de détail d'une propriété -->
+        <template id="property_details_template" name="Détail du Bien Immobilier">
+            <t t-call="website.layout">
+                <div id="wrap" class="container">
+                    <h1 class="mt-4"><t t-esc="property.name"/></h1>
+                    <h3 class="text-muted"><t t-esc="property.property_type_id.name"/></h3>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <img class="img-fluid" t-attf-src="data:image/png;base64,{{ property.image }}" alt="Image du bien"/>
+                        </div>
+                        <div class="col-md-4">
+                            <h4>Détails</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Prix Attendu
+                                    <span class="badge badge-primary badge-pill">
+                                        <span t-field="property.expected_price" t-options='{"widget": "monetary", "display_currency": property.env.ref("base.XOF")}'/>
+                                    </span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Quartier
+                                    <span><t t-esc="property.quarter"/></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Chambres
+                                    <span><t t-esc="property.bedrooms"/></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Salles de bain
+                                    <span><t t-esc="property.bathrooms"/></span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Surface habitable
+                                    <span><t t-esc="property.living_area"/> m²</span>
+                                </li>
+                            </ul>
+                            <a href="#" class="btn btn-primary btn-block mt-3">Contacter un agent</a>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>
