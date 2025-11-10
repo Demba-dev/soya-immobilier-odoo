@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+        <!-- === VUE ARBRE POUR LES TYPES DE BIENS === -->
+        <record id="view_property_type_tree" model="ir.ui.view">
+            <field name="name">soya.property.type.tree</field>
+            <field name="model">soya.property.type</field>
+            <field name="arch" type="xml">
+                <tree string="Types de Biens Immobiliers" decoration-success="property_count > 0" decoration-warning="property_count == 0">
+                    <field name="sequence" widget="handle"/>
+                    <field name="code" string="Code"/>
+                    <field name="name" string="Type de Bien"/>
+                    <field name="category" string="Catégorie"/>
+                    <field name="property_count" string="Nombre de Biens"/>
+                    <field name="sales_commission_rate" string="Commission Vente %"/>
+                    <field name="rental_commission_rate" string="Commission Location %"/>
+                    <field name="active" string="Actif"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- === VUE RECHERCHE POUR LES TYPES DE BIENS === -->
+        <record id="view_property_type_search" model="ir.ui.view">
+            <field name="name">soya.property.type.search</field>
+            <field name="model">soya.property.type</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher un Type de Bien">
+                    <field name="name" string="Nom du type"/>
+                    <field name="code" string="Code"/>
+                    <field name="category" string="Catégorie"/>
+                    
+                    <!-- Filtres rapides -->
+                    <filter string="Types actifs" name="active" domain="[('active','=',True)]"/>
+                    <filter string="Avec biens associés" name="with_properties" domain="[('property_count','>',0)]"/>
+                    <filter string="Résidentiel" name="residential" domain="[('category','=','residential')]"/>
+                    <filter string="Commercial" name="commercial" domain="[('category','=','commercial')]"/>
+                    <filter string="Terrains" name="land" domain="[('category','=','land')]"/>
+                    
+                    <!-- Filtres groupe -->
+                    <group expand="0" string="Regrouper par">
+                        <filter string="Par Catégorie" name="group_category" context="{'group_by': 'category'}"/>
+                        <filter string="Par Statut Actif" name="group_active" context="{'group_by': 'active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- === VUE FORMULAIRE POUR LES TYPES DE BIENS === -->
+        <record id="view_property_type_form" model="ir.ui.view">
+            <field name="name">soya.property.type.form</field>
+            <field name="model">soya.property.type</field>
+            <field name="arch" type="xml">
+                <form string="Type de Bien Immobilier">
+                    <header>
+                        <button name="action_view_properties" type="object" string="Voir les Biens" class="btn-primary" invisible="property_count == 0"/>
+                        <button name="action_view_available_properties" type="object" string="Biens Disponibles" class="btn-outline-primary" invisible="available_property_count == 0"/>
+                    </header>
+                    <sheet>
+                        <field name="available_property_count" invisible="1"/> <!-- Added missing field -->
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_properties" type="object" class="oe_stat_button" icon="fa-home">
+                                <field name="property_count" widget="statinfo" string="Biens"/>
+                            </button>
+                            <field name="active" widget="boolean_button" options='{"terminology": "active"}'/>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Ex: Villa, Appartement..."/>
+                            </h1>
+                            <h2>
+                                <field name="code" placeholder="Ex: VIL, APP..."/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="category"/>
+                                <field name="sequence"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Configuration Commerciale">
+                                <group>
+                                    <group string="Commissions">
+                                        <field name="sales_commission_rate" help="Taux de commission par défaut pour les ventes de ce type de bien"/>
+                                        <field name="rental_commission_rate" help="Taux de commission par défaut pour les locations de ce type de bien"/>
+                                    </group>
+                                    <group string="Permissions Métier">
+                                        <field name="is_sellable" help="Ce type de bien peut-il être mis en vente ?"/>
+                                        <field name="is_rentable" help="Ce type de bien peut-il être mis en location ?"/>
+                                        <field name="requires_land_title" help="Ce type de bien nécessite-t-il un titre foncier au Mali ?"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Caractéristiques par Défaut">
+                                <group string="Valeurs par défaut pour les nouveaux biens de ce type">
+                                    <group>
+                                        <field name="default_living_area" help="Surface habitable typique pour ce type de bien (m²)"/>
+                                        <field name="default_bedrooms" help="Nombre de chambres typique pour ce type de bien"/>
+                                        <field name="default_bathrooms" help="Nombre de salles de bain typique pour ce type de bien"/>
+                                    </group>
+                                    <group>
+                                        <field name="max_floors" help="Nombre maximum d'étages pour ce type de bien (R+ pour immeubles)"/>
+                                    </group>
+                                </group>
+                                <separator string="Ces valeurs seront proposées par défaut lors de la création d'un nouveau bien de ce type"/>
+                            </page>
+                            <page string="Description">
+                                <field name="description" nolabel="1" placeholder="Description détaillée de ce type de bien..."/>
+                            </page>
+                            <page string="Biens Associés" invisible="property_count == 0">
+                                <field name="property_ids" readonly="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- === VUE KANBAN POUR LES TYPES DE BIENS === -->
+        <record id="view_property_type_kanban" model="ir.ui.view">
+            <field name="name">soya.property.type.kanban</field>
+            <field name="model">soya.property.type</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="property_count"/>
+                    <field name="category"/>
+                    <field name="active"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click o_kanban_card {{active ? 'o_color_1' : 'o_color_5'}}">
+                                <!-- En-tête de la carte -->
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <strong>
+                                            <field name="name"/>
+                                        </strong>
+                                        <span class="badge badge-pill" t-attf-class="o_kanban_card_badge {{property_count > 0 ? 'badge-success' : 'badge-secondary'}}">
+                                            <field name="property_count"/>
+                                        </span>
+                                    </div>
+                                    <div class="o_kanban_card_header_code">
+                                        <small class="text-muted">
+                                            <field name="code"/>
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Contenu de la carte -->
+                                <div class="o_kanban_card_content">
+                                    <div>
+                                        <i class="fa fa-tag mr-2"/>
+                                        <span t-esc="category"/>
+                                    </div>
+                                    <div t-if="sales_commission_rate &gt; 0">
+                                        <i class="fa fa-percent mr-2"/>
+                                        <span>Vente: </span>
+                                        <span t-esc="sales_commission_rate"/>%
+                                    </div>
+                                    <div t-if="rental_commission_rate &gt; 0">
+                                        <i class="fa fa-percent mr-2"/>
+                                        <span>Location: </span>
+                                        <span t-esc="rental_commission_rate"/>%
+                                    </div>
+                                </div>
+                                
+                                <!-- Pied de carte -->
+                                <div class="o_kanban_card_footer">
+                                    <div class="o_kanban_card_footer_left">
+                                        <span t-if="active" class="badge badge-success">Actif</span>
+                                        <span t-if="!active" class="badge badge-secondary">Inactif</span>
+                                    </div>
+                                    <div class="o_kanban_card_footer_right">
+                                        <button name="action_view_properties" type="object" 
+                                                class="btn btn-sm btn-outline-primary" 
+                                                invisible="[('property_count','=',0)]">
+                                            Voir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- === ACTIONS POUR LES TYPES DE BIENS === -->
+        
+        <!-- Action principale pour les Types de Biens -->
+        <record id="action_property_type" model="ir.actions.act_window">
+            <field name="name">Types de Biens Immobiliers</field>
+            <field name="res_model">soya.property.type</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_id" ref="view_property_type_tree"/>
+            <field name="search_view_id" ref="view_property_type_search"/>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier type de bien immobilier
+                </p>
+                <p>
+                    Les types de biens vous permettent de catégoriser et standardiser 
+                    votre portefeuille immobilier (Villas, Appartements, Terrains, etc.)
+                </p>
+            </field>
+        </record>
+
+        <!-- Action pour créer un nouveau type de bien -->
+        <record id="action_property_type_create" model="ir.actions.act_window">
+            <field name="name">Nouveau Type de Bien</field>
+            <field name="res_model">soya.property.type</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_property_type_form"/>
+        </record>
+
+        <!-- === MENUS POUR LES TYPES DE BIENS === -->
+        
+        <!-- Menu pour les Types de Biens -->
+        <menuitem id="menu_property_type" name="Types de Biens" 
+                  parent="menu_soya_estate_root" 
+                  action="action_property_type" 
+                  sequence="10"/>
+                  
+        <!-- Sous-menu pour créer un type -->
+        <menuitem id="menu_property_type_create" name="Nouveau Type" 
+                  parent="menu_property_type" 
+                  action="action_property_type_create" 
+                  sequence="10"/>
+
+    </data>
+</odoo>

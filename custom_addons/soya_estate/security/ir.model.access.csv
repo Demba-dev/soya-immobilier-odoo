@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_soya_property_type_user,SOYA Property Type User,model_soya_property_type,group_soya_estate_user,1,0,0,0
+access_soya_property_type_agent,SOYA Property Type Agent,model_soya_property_type,group_soya_estate_agent,1,0,0,0
+access_soya_property_type_manager,SOYA Property Type Manager,model_soya_property_type,group_soya_estate_manager,1,1,1,1
+access_soya_property_user,SOYA Property User,model_soya_property,group_soya_estate_user,1,0,0,0
+access_soya_property_agent,SOYA Property Agent,model_soya_property,group_soya_estate_agent,1,1,1,0
+access_soya_property_manager,SOYA Property Manager,model_soya_property,group_soya_estate_manager,1,1,1,1
+access_soya_property_portal,SOYA Property Portal,model_soya_property,base.group_portal,1,0,0,0
+access_soya_property_offer_user,SOYA Property Offer User,model_soya_property_offer,group_soya_estate_user,1,0,0,0
+access_soya_property_offer_agent,SOYA Property Offer Agent,model_soya_property_offer,group_soya_estate_agent,1,1,1,0
+access_soya_property_offer_manager,SOYA Property Offer Manager,model_soya_property_offer,group_soya_estate_manager,1,1,1,1
+access_soya_property_offer_portal,SOYA Property Offer Portal,model_soya_property_offer,base.group_portal,1,1,1,0

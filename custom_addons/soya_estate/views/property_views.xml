@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- === MENU RACINE SOYA IMMOBILIER === -->
+        <menuitem id="menu_soya_estate_root" name="SOYA Immobilier" sequence="10"/>
+        <!-- === VUES POUR SOYA.PROPERTY === -->
+        
+        <!-- Vue Arbre pour les Biens Immobiliers -->
+        <record id="view_property_tree" model="ir.ui.view">
+            <field name="name">soya.property.tree</field>
+            <field name="model">soya.property</field>
+            <field name="arch" type="xml">
+                <tree string="Biens Immobiliers" decoration-success="state in ['new', 'available_rent']" decoration-warning="state == 'offer_received'" decoration-danger="state in ['sold', 'rented']">
+                    <field name="name" string="Référence"/>
+                    <field name="property_type_id"/>
+                    <field name="quarter" string="Quartier"/>
+                    <field name="living_area" string="Surface (m²)"/>
+                    <field name="bedrooms" string="Chambres"/>
+                    <field name="expected_price" string="Prix Attendu"/>
+                    <field name="rent_price" string="Prix Location"/>
+                    <field name="state" widget="badge"/>
+                    <field name="salesperson_id" string="Commercial"/>
+                    <field name="offer_count" string="Offres"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Recherche pour les Biens Immobiliers -->
+        <record id="view_property_search" model="ir.ui.view">
+            <field name="name">soya.property.search</field>
+            <field name="model">soya.property</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher un Bien">
+                    <field name="name" string="Référence"/>
+                    <field name="property_type_id"/>
+                    <field name="quarter"/>
+                    <field name="city"/>
+                    <filter string="Disponible à la vente" name="available_sale" domain="[('state','=','new')]"/>
+                    <filter string="Disponible à la location" name="available_rent" domain="[('state','=','new')]"/>
+                    <filter string="Avec offres" name="with_offers" domain="[('offer_count','>',0)]"/>
+                    <filter string="Mes biens" name="my_properties" domain="[('salesperson_id','=',uid)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Par Type" name="group_type" context="{'group_by': 'property_type_id'}"/>
+                        <filter string="Par Quartier" name="group_quarter" context="{'group_by': 'quarter'}"/>
+                        <filter string="Par Commercial" name="group_salesperson" context="{'group_by': 'salesperson_id'}"/>
+                        <filter string="Par Statut" name="group_state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire pour les Biens Immobiliers -->
+        <record id="view_property_form" model="ir.ui.view">
+            <field name="name">soya.property.form</field>
+            <field name="model">soya.property</field>
+            <field name="arch" type="xml">
+                <form string="Bien Immobilier">
+                    <header>
+                        <button name="action_mark_sold" type="object" string="Marquer Vendu" invisible="state != 'offer_accepted'" class="btn-primary"/>
+                        <button name="action_mark_rented" type="object" string="Marquer Loué" invisible="state in ['sold','rented','canceled']" class="btn-secondary"/>
+                        <button name="action_reset_to_new" type="object" string="Réinitialiser" invisible="state in ['new','sold','rented']" class="btn-outline-secondary"/>
+                        <button name="action_schedule_visit" type="object" string="Planifier Visite" class="btn-outline-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="new,offer_received,offer_accepted,sold,rented,canceled"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_offers" type="object" class="oe_stat_button" icon="fa-gavel">
+                                <field name="offer_count" widget="statinfo" string="Offres"/>
+                            </button>
+                        </div>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Ex: Villa R+2 à Cité du Niger"/>
+                            </h1>
+                            <h2>
+                                <field name="property_type_id" placeholder="Type de bien"/>
+                            </h2>
+                        </div>
+                        
+                        <group>
+                            <group string="Détails Principaux">
+                                <field name="salesperson_id"/>
+                                <field name="owner_id"/>
+                                <field name="availability_date"/>
+                            </group>
+                            <group string="Informations Financières">
+                                <field name="expected_price" widget="monetary"/>
+                                <field name="selling_price" widget="monetary" readonly="state != 'sold'"/>
+                                <field name="rent_price" widget="monetary"/>
+                                <field name="rental_deposit" widget="monetary"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Localisation">
+                                <group>
+                                    <group string="Adresse">
+                                        <field name="street"/>
+                                        <field name="quarter"/>
+                                        <field name="city"/>
+                                        <field name="country_id"/>
+                                    </group>
+                                    <group string="Coordonnées GPS">
+                                        <field name="gps_coordinates"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Caractéristiques">
+                                <group>
+                                    <group string="Surfaces (m²)">
+                                        <field name="living_area"/>
+                                        <field name="land_area"/>
+                                        <field name="total_area" readonly="1"/>
+                                    </group>
+                                    <group string="Pièces">
+                                        <field name="bedrooms"/>
+                                        <field name="bathrooms"/>
+                                        <field name="toilets"/>
+                                    </group>
+                                </group>
+                                <group string="Autres Caractéristiques">
+                                    <field name="construction_year"/>
+                                    <div class="o_row">
+                                        <field name="furnished"/>
+                                        <field name="has_garage"/>
+                                        <field name="has_garden"/>
+                                        <field name="has_pool"/>
+                                        <field name="has_ac"/>
+                                        <field name="security_system"/>
+                                    </div>
+                                </group>
+                            </page>
+                            
+                            <page string="Informations Légales">
+                                <group>
+                                    <group string="Titre Foncier">
+                                        <field name="land_title_number"/>
+                                        <field name="land_title_date"/>
+                                        <field name="land_title_status"/>
+                                    </group>
+                                    <group string="Occupation">
+                                        <field name="current_tenant_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Offres" invisible="offer_count == 0">
+                                <field name="offer_ids" readonly="1">
+                                    <tree string="Offres">
+                                        <field name="name" string="Référence"/>
+                                        <field name="partner_id"/>
+                                        <field name="offer_type"/>
+                                        <field name="price" widget="monetary"/>
+                                        <field name="state" widget="badge"/>
+                                        <field name="offer_date"/>
+                                        <field name="validity_days"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour les Biens Immobiliers -->
+        <record id="action_property" model="ir.actions.act_window">
+            <field name="name">Biens Immobiliers</field>
+            <field name="res_model">soya.property</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{'search_default_available_sale': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier bien immobilier
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu pour les Biens Immobiliers -->
+        <menuitem id="menu_property" name="Biens Immobiliers" parent="menu_soya_estate_root" action="action_property" sequence="20"/>
+        
+    </data>
+</odoo>

@@ -1,0 +1,8 @@
+{
+    "python.analysis.extraPaths": [
+        "./custom_addons"
+    ],
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingImports": "none"
+    }
+}

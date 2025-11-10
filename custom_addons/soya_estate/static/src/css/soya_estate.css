@@ -1,0 +1,195 @@
+/* === STYLES PERSONNALISÉS SOYA IMMOBILIER MALI === */
+
+/* Couleurs SOYA Immobilier */
+:root {
+    --soya-primary: #2E8B57;      /* Vert forêt */
+    --soya-secondary: #D4AF37;    /* Or */
+    --soya-accent: #8B4513;       /* Marron terre */
+    --soya-light: #F5F5DC;        /* Beige */
+    --soya-dark: #2F4F4F;         /* Gris ardoise */
+}
+
+/* En-têtes de pages */
+.oe_soya_header {
+    background: linear-gradient(135deg, var(--soya-primary), var(--soya-dark));
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Cartes de biens */
+.o_kanban_card.oe_soya_property_card {
+    border: 2px solid var(--soya-light);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(46, 139, 87, 0.1);
+    transition: all 0.3s ease;
+}
+
+.o_kanban_card.oe_soya_property_card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(46, 139, 87, 0.2);
+    border-color: var(--soya-primary);
+}
+
+/* Badges statuts */
+.oe_soya_badge_new {
+    background-color: #28a745 !important;
+    color: white !important;
+}
+
+.oe_soya_badge_offer_received {
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+
+.oe_soya_badge_sold {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.oe_soya_badge_rented {
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+/* Boutons personnalisés */
+.btn-soya-primary {
+    background: linear-gradient(135deg, var(--soya-primary), #267a4a);
+    border: none;
+    color: white;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+
+.btn-soya-primary:hover {
+    background: linear-gradient(135deg, #267a4a, var(--soya-primary));
+    transform: scale(1.05);
+}
+
+.btn-soya-secondary {
+    background: linear-gradient(135deg, var(--soya-secondary), #b8941f);
+    border: none;
+    color: white;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 600;
+}
+
+/* Cartes statistiques */
+.oe_soya_stat_card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.oe_soya_stat_value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--soya-primary);
+    display: block;
+}
+
+.oe_soya_stat_label {
+    font-size: 0.9rem;
+    color: var(--soya-dark);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Arrière-plan des pages */
+.oe_soya_background {
+    background-color: #f8f9fa;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232e8b57' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+/* En-têtes de tableau */
+.oe_soya_table_header {
+    background: linear-gradient(135deg, var(--soya-primary), var(--soya-dark));
+    color: white;
+}
+
+.oe_soya_table_header th {
+    color: white !important;
+    font-weight: 600;
+    border: none !important;
+}
+
+/* Cartes de détails */
+.oe_soya_detail_card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--soya-primary);
+}
+
+/* Icônes personnalisées */
+.oe_soya_icon {
+    color: var(--soya-primary);
+    margin-right: 8px;
+}
+
+.oe_soya_icon_gold {
+    color: var(--soya-secondary);
+}
+
+/* Alertes et notifications */
+.oe_soya_alert_success {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    border: 1px solid #28a745;
+    color: #155724;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.oe_soya_alert_warning {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    border: 1px solid #ffc107;
+    color: #856404;
+    border-radius: 8px;
+    padding: 12px;
+}
+
+/* Formulaire élégant */
+.oe_soya_form_group {
+    margin-bottom: 1.5rem;
+}
+
+.oe_soya_form_label {
+    font-weight: 600;
+    color: var(--soya-dark);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.oe_soya_form_control {
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    transition: all 0.3s ease;
+}
+
+.oe_soya_form_control:focus {
+    border-color: var(--soya-primary);
+    box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.1);
+}
+
+/* Barre de progression */
+.oe_soya_progress {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.oe_soya_progress_bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--soya-primary), var(--soya-secondary));
+    transition: width 0.6s ease;
+}
