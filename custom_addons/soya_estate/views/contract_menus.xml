@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu racine Contrats -->
+    <record id="menu_contracts_root" model="ir.ui.menu">
+        <field name="name">Gestion des Contrats</field>
+        <field name="parent_id" ref="menu_soya_estate_root"/>
+        <field name="sequence">40</field>
+        <field name="web_icon">fa-file-text-o</field>
+    </record>
+
+    <!-- Sous-menu Contrats Location -->
+    <record id="menu_rental_contract" model="ir.ui.menu">
+        <field name="name">Contrats Location</field>
+        <field name="parent_id" ref="menu_contracts_root"/>
+        <field name="action" ref="action_rental_contract"/>
+        <field name="sequence">10</field>
+        <field name="web_icon">fa-home</field>
+    </record>
+
+    <!-- Sous-menu Contrats Vente -->
+    <record id="menu_sale_contract" model="ir.ui.menu">
+        <field name="name">Contrats Vente</field>
+        <field name="parent_id" ref="menu_contracts_root"/>
+        <field name="action" ref="action_sale_contract"/>
+        <field name="sequence">20</field>
+        <field name="web_icon">fa-money</field>
+    </record>
+
+    <!-- Sous-menu Avenants -->
+    <record id="menu_amendment" model="ir.ui.menu">
+        <field name="name">Avenants</field>
+        <field name="parent_id" ref="menu_contracts_root"/>
+        <field name="action" ref="action_amendment"/>
+        <field name="sequence">30</field>
+        <field name="web_icon">fa-pencil-square-o</field>
+    </record>
+</odoo>

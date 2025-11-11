@@ -23,32 +23,45 @@
         'website',
     ],
 
-    'demo': [
-        'demo/property_type_demo.xml',
-    ],
+    
     
     # FICHIERS DE DONNÉES ET DE VUES À CHARGER
     # L'ordre est essentiel : Sécurité -> Données -> Vues -> Rapports
     'data': [
-        # 1. Sécurité
+        # ========================
+        # 1. SÉCURITÉ (Toujours en premier)
+
         'security/soya_estate_rules.xml',
         'security/ir.model.access.csv',
         
-        # 2. Vues (chaque fichier pour son modèle)
+        # ========================
+        # 2. SÉQUENCES (Avant les vues qui les utilisent)
+  
+        'data/sequences.xml',
+
+        # ========================
+        # 3. VUES PRINCIPALES (Par ordre logique)
+        
         'views/property_views.xml',
         'views/property_type_views.xml',
         'views/property_offer_views.xml',
-        'views/property_web_templates.xml',
+        'views/contract_views.xml',
+        'views/contract_menus.xml',
         
-        # 3. Assistants (Wizards)
+        # ========================
+        # 4. VUES WEB ET WIZARDS
+        'views/property_web_templates.xml',
         'wizards/close_property_views.xml',
         
-        # 4. Données Initiales (Ex: Types de biens par défaut)
-        # 'data/property_data.xml', # Sera ajouté plus tard
         
-        # 5. Rapports (QWeb)
-        # 'report/property_report.xml', # Sera ajouté plus tard
     ],
+
+    'demo': [
+        'demo/property_type_demo.xml',
+    ],
+
+
+
     'assets': {
         'web.assets_backend': [
             'soya_estate/static/src/css/soya_estate.css',

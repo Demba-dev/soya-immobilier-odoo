@@ -10,3 +10,17 @@ access_soya_property_offer_user,SOYA Property Offer User,model_soya_property_off
 access_soya_property_offer_agent,SOYA Property Offer Agent,model_soya_property_offer,group_soya_estate_agent,1,1,1,0
 access_soya_property_offer_manager,SOYA Property Offer Manager,model_soya_property_offer,group_soya_estate_manager,1,1,1,1
 access_soya_property_offer_portal,SOYA Property Offer Portal,model_soya_property_offer,base.group_portal,1,1,1,0
+access_soya_rental_contract_user,SOYA Rental Contract User,model_soya_rental_contract,group_soya_estate_user,1,0,0,0
+access_soya_rental_contract_agent,SOYA Rental Contract Agent,model_soya_rental_contract,group_soya_estate_agent,1,1,1,0
+access_soya_rental_contract_manager,SOYA Rental Contract Manager,model_soya_rental_contract,group_soya_estate_manager,1,1,1,1
+access_soya_rental_contract_portal,SOYA Rental Contract Portal,model_soya_rental_contract,base.group_portal,1,0,0,0
+access_soya_sale_contract_user,SOYA Sale Contract User,model_soya_sale_contract,group_soya_estate_user,1,0,0,0
+access_soya_sale_contract_agent,SOYA Sale Contract Agent,model_soya_sale_contract,group_soya_estate_agent,1,1,1,0
+access_soya_sale_contract_manager,SOYA Sale Contract Manager,model_soya_sale_contract,group_soya_estate_manager,1,1,1,1
+access_soya_sale_contract_portal,SOYA Sale Contract Portal,model_soya_sale_contract,base.group_portal,1,0,0,0
+access_soya_amendment_user,SOYA Amendment User,model_soya_contract_amendment,group_soya_estate_user,1,0,0,0
+access_soya_amendment_agent,SOYA Amendment Agent,model_soya_contract_amendment,group_soya_estate_agent,1,1,1,0
+access_soya_amendment_manager,SOYA Amendment Manager,model_soya_contract_amendment,group_soya_estate_manager,1,1,1,1
+access_soya_contract_document_user,access_soya_contract_document_user,model_soya_contract_document,base.group_user,1,1,1,1
+access_soya_contract_document_manager,access_soya_contract_document_manager,model_soya_contract_document,base.group_system,1,1,1,1
+access_soya_base_contract_manager,SOYA Base Contract Manager,model_soya_base_contract,group_soya_estate_manager,1,1,1,1

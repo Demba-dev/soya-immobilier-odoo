@@ -1,270 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
-        <!-- =========================================== -->
-        <!-- TYPES DE BIENS PRÉDÉFINIS POUR LE MALI -->
-        <!-- =========================================== -->
-        
-        <record id="property_type_villa_demo" model="soya.property.type">
-            <field name="name">Villa (Démo)</field>
-            <field name="code">VIL_DEMO</field>
-            <field name="category">residential</field>
-            <field name="sequence">10</field>
-            <field name="sales_commission_rate">5.0</field>
-            <field name="rental_commission_rate">1.0</field>
-            <field name="default_living_area">150</field>
-            <field name="default_bedrooms">3</field>
-            <field name="default_bathrooms">2</field>
-            <field name="requires_land_title">True</field>
-            <field name="description">
-Villa de standing avec jardin et garage. 
-Très demandée dans les quartiers résidentiels de Bamako.
-Caractéristiques typiques : surface 150-300m², 3-5 chambres, jardin, garage.
-            </field>
-        </record>
+    <!-- =========================================== -->
+    <!-- TYPES DE BIENS PRÉDÉFINIS POUR LE MALI -->
+    <!-- =========================================== -->
+    
+    <record id="property_type_villa_demo" model="soya.property.type">
+        <field name="name">Villa (Démo)</field>
+        <field name="code">VIL_DEMO</field>
+        <field name="category">residential</field>
+        <field name="sequence">10</field>
+        <field name="sales_commission_rate">5.0</field>
+        <field name="rental_commission_rate">1.0</field>
+        <field name="default_living_area">150</field>
+        <field name="default_bedrooms">3</field>
+        <field name="default_bathrooms">2</field>
+        <field name="requires_land_title">1</field>
+    </record>
 
-        <record id="property_type_appartement" model="soya.property.type">
-            <field name="name">Appartement</field>
-            <field name="code">APP</field>
-            <field name="category">residential</field>
-            <field name="sequence">20</field>
-            <field name="sales_commission_rate">4.0</field>
-            <field name="rental_commission_rate">1.0</field>
-            <field name="default_living_area">80</field>
-            <field name="default_bedrooms">2</field>
-            <field name="default_bathrooms">1</field>
-            <field name="max_floors">5</field>
-            <field name="requires_land_title">True</field>
-            <field name="description">
-Appartement en immeuble, idéal pour jeunes professionnels et petites familles.
-Marché très dynamique à Bamako, particulièrement à ACI 2000 et Badalabougou.
-            </field>
-        </record>
+    <record id="property_type_appartement" model="soya.property.type">
+        <field name="name">Appartement</field>
+        <field name="code">APP</field>
+        <field name="category">residential</field>
+        <field name="sequence">20</field>
+        <field name="sales_commission_rate">4.0</field>
+        <field name="rental_commission_rate">1.0</field>
+        <field name="default_living_area">80</field>
+        <field name="default_bedrooms">2</field>
+        <field name="default_bathrooms">1</field>
+        <field name="requires_land_title">1</field>
+    </record>
 
-        <record id="property_type_terrain" model="soya.property.type">
-            <field name="name">Terrain</field>
-            <field name="code">TER</field>
-            <field name="category">land</field>
-            <field name="sequence">30</field>
-            <field name="sales_commission_rate">8.0</field>
-            <field name="rental_commission_rate">0.0</field>
-            <field name="is_rentable">False</field>
-            <field name="default_living_area">0</field>
-            <field name="requires_land_title">True</field>
-            <field name="description">
-Terrain constructible, très demandé pour projets immobiliers.
-Nécessite un titre foncier certifié. Zones prisées : Niamakoro, Sabalibougou.
-            </field>
-        </record>
+    <record id="property_type_terrain" model="soya.property.type">
+        <field name="name">Terrain</field>
+        <field name="code">TER</field>
+        <field name="category">land</field>
+        <field name="sequence">30</field>
+        <field name="sales_commission_rate">8.0</field>
+        <field name="rental_commission_rate">0.0</field>
+        <field name="is_rentable">0</field>
+        <field name="default_living_area">0</field>
+        <field name="requires_land_title">1</field>
+    </record>
 
-        <record id="property_type_commercial" model="soya.property.type">
-            <field name="name">Local Commercial</field>
-            <field name="code">COM</field>
-            <field name="category">commercial</field>
-            <field name="sequence">40</field>
-            <field name="sales_commission_rate">6.0</field>
-            <field name="rental_commission_rate">1.5</field>
-            <field name="default_living_area">50</field>
-            <field name="requires_land_title">True</field>
-            <field name="description">
-Local commercial pour boutiques, bureaux ou activités commerciales.
-Fort potentiel dans les zones commerciales comme Hippodrome et ACI 2000.
-            </field>
-        </record>
+    <!-- =========================================== -->
+    <!-- PROPRÉTAIRES DE DÉMONSTRATION -->
+    <!-- =========================================== -->
 
-        <record id="property_type_bureau" model="soya.property.type">
-            <field name="name">Bureau</field>
-            <field name="code">BUR</field>
-            <field name="category">office</field>
-            <field name="sequence">50</field>
-            <field name="sales_commission_rate">4.0</field>
-            <field name="rental_commission_rate">1.2</field>
-            <field name="default_living_area">30</field>
-            <field name="requires_land_title">True</field>
-            <field name="description">
-            Bureau pour professionnels et entreprises.
-            Demande croissante avec le développement des affaires à Bamako.
-            </field>
-        </record>
+    <record id="res_partner_diarra" model="res.partner">
+        <field name="name">Moussa Diarra</field>
+        <field name="company_type">person</field>
+        <field name="type">contact</field>
+        <field name="email">moussa.diarra@email.ml</field>
+        <field name="phone">+223 76 45 32 10</field>
+        <field name="city">Bamako</field>
+        <field name="country_id" ref="base.ml"/>
+    </record>
 
-        <!-- =========================================== -->
-        <!-- PROPRÉTAIRES DE DÉMONSTRATION -->
-        <!-- =========================================== -->
+    <record id="res_partner_traore" model="res.partner">
+        <field name="name">Aïcha Traoré</field>
+        <field name="company_type">person</field>
+        <field name="type">contact</field>
+        <field name="email">aicha.traore@email.ml</field>
+        <field name="phone">+223 65 12 34 56</field>
+        <field name="city">Bamako</field>
+        <field name="country_id" ref="base.ml"/>
+    </record>
 
-        <record id="res_partner_diarra" model="res.partner">
-            <field name="name">Moussa Diarra</field>
-            <field name="company_type">person</field>
-            <field name="type">contact</field>
-            <field name="email">moussa.diarra@email.ml</field>
-            <field name="phone">+223 76 45 32 10</field>
-            <field name="street">Rue 123, Porte 456</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <field name="comment">Propriétaire de biens immobiliers à Badalabougou</field>
-        </record>
+    <!-- =========================================== -->
+    <!-- BIENS IMMOBILIERS DE DÉMONSTRATION -->
+    <!-- =========================================== -->
 
-        <record id="res_partner_traore" model="res.partner">
-            <field name="name">Aïcha Traoré</field>
-            <field name="company_type">person</field>
-            <field name="type">contact</field>
-            <field name="email">aicha.traore@email.ml</field>
-            <field name="phone">+223 65 12 34 56</field>
-            <field name="street">Avenue de l'Indépendance</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <field name="comment">Propriétaire appartement ACI 2000</field>
-        </record>
+    <record id="property_villa_badalabougou" model="soya.property">
+        <field name="name">VIL-001</field>
+        <field name="property_type_id" ref="property_type_villa_demo"/>
+        <field name="owner_id" ref="res_partner_diarra"/>
+        <field name="expected_price">85000000</field>
+        <field name="rent_price">450000</field>
+        <field name="state">new</field>
+        <field name="living_area">180</field>
+        <field name="bedrooms">4</field>
+        <field name="bathrooms">3</field>
+        <field name="furnished">1</field>
+        <field name="has_garage">1</field>
+        <field name="land_title_status">certified</field>
+        <field name="quarter">badalabougou</field>
+    </record>
 
-        <record id="res_partner_sim" model="res.partner">
-            <field name="name">Société Immobilière du Mali</field>
-            <field name="company_type">company</field>
-            <field name="type">contact</field>
-            <field name="email">contact@sim.ml</field>
-            <field name="phone">+223 20 21 22 23</field>
-            <field name="street">Rue 234</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <field name="comment">Société spécialisée dans les terrains et projets immobiliers</field>
-        </record>
+    <record id="property_appartement_aci" model="soya.property">
+        <field name="name">APP-001</field>
+        <field name="property_type_id" ref="property_type_appartement"/>
+        <field name="owner_id" ref="res_partner_traore"/>
+        <field name="expected_price">45000000</field>
+        <field name="rent_price">275000</field>
+        <field name="state">new</field>
+        <field name="living_area">95</field>
+        <field name="bedrooms">3</field>
+        <field name="furnished">1</field>
+        <field name="land_title_status">certified</field>
+        <field name="quarter">aci2000</field>
+    </record>
 
-        <!-- =========================================== -->
-        <!-- BIENS IMMOBILIERS DE DÉMONSTRATION -->
-        <!-- =========================================== -->
+    <!-- =========================================== -->
+    <!-- CLIENTS/ACHETEURS DE DÉMONSTRATION -->
+    <!-- =========================================== -->
 
-        <record id="property_villa_badalabougou" model="soya.property">
-            <field name="name">VIL-001</field>
-            <field name="property_type_id" ref="property_type_villa_demo"/>
-            <field name="owner_id" ref="res_partner_diarra"/>
-            <field name="expected_price">85000000</field>
-            <field name="rent_price">450000</field>
-            <field name="rental_deposit">900000</field>
-            <field name="state">new</field>
-            <!-- Localisation -->
-            <field name="street">Rue 123, Porte 456</field>
-            <field name="quarter">badalabougou</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <field name="gps_coordinates">12.6392, -8.0029</field>
-            <!-- Caractéristiques -->
-            <field name="living_area">180</field>
-            <field name="land_area">300</field>
-            <field name="bedrooms">4</field>
-            <field name="bathrooms">3</field>
-            <field name="toilets">4</field>
-            <field name="construction_year">2018</field>
-            <!-- Équipements -->
-            <field name="furnished">True</field>
-            <field name="has_garage">True</field>
-            <field name="has_garden">True</field>
-            <field name="has_ac">True</field>
-            <field name="security_system">True</field>
-            <!-- Informations légales -->
-            <field name="land_title_status">certified</field>
-            <field name="land_title_number">TF-789456123</field>
-            <field name="land_title_date">2019-03-15</field>
-            <field name="availability_date">2024-01-01</field>
-        </record>
+    <record id="res_partner_etc" model="res.partner">
+        <field name="name">Entreprise Togolaise de Commerce</field>
+        <field name="company_type">company</field>
+        <field name="type">contact</field>
+        <field name="email">direction@etc.tg</field>
+        <field name="city">Lomé</field>
+        <field name="country_id" ref="base.tg"/>
+    </record>
 
-        <record id="property_appartement_aci" model="soya.property">
-            <field name="name">APP-001</field>
-            <field name="property_type_id" ref="property_type_appartement"/>
-            <field name="owner_id" ref="res_partner_traore"/>
-            <field name="expected_price">45000000</field>
-            <field name="rent_price">275000</field>
-            <field name="rental_deposit">550000</field>
-            <field name="state">new</field>
-            <!-- Localisation -->
-            <field name="quarter">aci2000</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <!-- Caractéristiques -->
-            <field name="living_area">95</field>
-            <field name="bedrooms">3</field>
-            <field name="bathrooms">2</field>
-            <field name="toilets">2</field>
-            <field name="construction_year">2020</field>
-            <!-- Équipements -->
-            <field name="furnished">True</field>
-            <field name="has_garage">True</field>
-            <field name="has_ac">True</field>
-            <!-- Informations légales -->
-            <field name="land_title_status">certified</field>
-            <field name="land_title_number">TF-321654987</field>
-            <field name="land_title_date">2020-06-20</field>
-        </record>
+    <record id="res_partner_keita" model="res.partner">
+        <field name="name">Fatoumata Keita</field>
+        <field name="company_type">person</field>
+        <field name="type">contact</field>
+        <field name="email">fatou.keita@email.ml</field>
+        <field name="city">Bamako</field>
+        <field name="country_id" ref="base.ml"/>
+    </record>
 
-        <record id="property_terrain_niamakoro" model="soya.property">
-            <field name="name">TER-001</field>
-            <field name="property_type_id" ref="property_type_terrain"/>
-            <field name="owner_id" ref="res_partner_sim"/>
-            <field name="expected_price">25000000</field>
-            <field name="state">new</field>
-            <!-- Localisation -->
-            <field name="quarter">niamakoro</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <!-- Caractéristiques -->
-            <field name="land_area">500</field>
-            <!-- Informations légales -->
-            <field name="land_title_status">pending</field>
-            <field name="land_title_number">EN-COURS-123</field>
-        </record>
+    <!-- =========================================== -->
+    <!-- CONTRATS DE DÉMONSTRATION -->
+    <!-- =========================================== -->
 
-        <!-- =========================================== -->
-        <!-- CLIENTS/ACHETEURS DE DÉMONSTRATION -->
-        <!-- =========================================== -->
+    <!-- Contrat de Location -->
+    <record id="demo_rental_contract_1" model="soya.rental.contract">
+        <field name="name">LOC-2024-001</field>
+        <field name="property_id" ref="property_appartement_aci"/>
+        <field name="tenant_id" ref="res_partner_keita"/>
+        <field name="landlord_id" ref="res_partner_traore"/>
+        <field name="monthly_rent">260000</field>
+        <field name="start_date">2024-02-01</field>
+        <field name="duration_months">24</field>
+        <field name="state">active</field>
+    </record>
 
-        <record id="res_partner_etc" model="res.partner">
-            <field name="name">Entreprise Togolaise de Commerce</field>
-            <field name="company_type">company</field>
-            <field name="type">contact</field>
-            <field name="email">direction@etc.tg</field>
-            <field name="phone">+228 21 234 567</field>
-            <field name="street">Rue des Commerçants</field>
-            <field name="city">Lomé</field>
-            <field name="country_id" ref="base.tg"/>
-            <field name="comment">Investisseur immobilier pour implantation à Bamako</field>
-        </record>
+    <!-- Contrat de Vente -->
+    <record id="demo_sale_contract_1" model="soya.sale.contract">
+        <field name="name">VENTE-2024-001</field>
+        <field name="property_id" ref="property_villa_badalabougou"/>
+        <field name="buyer_id" ref="res_partner_etc"/>
+        <field name="landlord_id" ref="res_partner_diarra"/>
+        <field name="sale_price">82000000</field>
+        <field name="payment_terms">installment_3</field>
+        <field name="state">waiting_signature</field>
+    </record>
 
-        <record id="res_partner_keita" model="res.partner">
-            <field name="name">Fatoumata Keita</field>
-            <field name="company_type">person</field>
-            <field name="type">contact</field>
-            <field name="email">fatou.keita@email.ml</field>
-            <field name="phone">+223 70 12 34 56</field>
-            <field name="street">Rue du Fleuve</field>
-            <field name="city">Bamako</field>
-            <field name="country_id" ref="base.ml"/>
-            <field name="comment">Recherche un appartement pour location longue durée</field>
-        </record>
+     <!-- Avenant pour augmentation de loyer -->
+    <record id="demo_amendment_1" model="soya.contract.amendment">
+        <field name="contract_id" ref="demo_rental_contract_1"/>
+        <field name="amendment_type">rent_increase</field>
+        <field name="amendment_date">2024-06-01</field>
+        <field name="effective_date">2024-07-01</field>
+        <field name="description">Augmentation de loyer conformément à l'indice des loyers. Ancien loyer: 260,000 FCFA, Nouveau loyer: 275,000 FCFA</field>
+        <field name="old_value">260000</field>
+        <field name="new_value">275000</field>
+        <field name="state">signed</field>
+    </record>
 
-        <!-- =========================================== -->
-        <!-- OFFRES DE DÉMONSTRATION -->
-        <!-- =========================================== -->
+    <!-- Avenant pour prolongation de durée -->
+    <record id="demo_amendment_2" model="soya.contract.amendment">
+        <field name="contract_id" ref="demo_rental_contract_1"/>
+        <field name="amendment_type">duration_extension</field>
+        <field name="amendment_date">2024-11-01</field>
+        <field name="effective_date">2025-02-01</field>
+        <field name="description">Prolongation du contrat de location pour 12 mois supplémentaires</field>
+        <field name="old_value">24</field>
+        <field name="new_value">36</field>
+        <field name="state">draft</field>
+    </record>
 
-        <record id="property_offer_achat_villa" model="soya.property.offer">
-            <field name="property_id" ref="property_villa_badalabougou"/>
-            <field name="partner_id" ref="res_partner_etc"/>
-            <field name="offer_type">purchase</field>
-            <field name="price">82000000</field>
-            <field name="state">submitted</field>
-            <field name="validity_days">14</field>
-            <field name="payment_terms">cash</field>
-            <field name="offer_date">2024-01-10 09:00:00</field>
-        </record>
+    <!-- =========================================== -->
+    <!-- OFFRES DE DÉMONSTRATION -->
+    <!-- =========================================== -->
 
-        <record id="property_offer_location_appartement" model="soya.property.offer">
-            <field name="property_id" ref="property_appartement_aci"/>
-            <field name="partner_id" ref="res_partner_keita"/>
-            <field name="offer_type">rental</field>
-            <field name="price">260000</field>
-            <field name="state">submitted</field>
-            <field name="validity_days">7</field>
-            <field name="rental_duration">24</field>
-            <field name="proposed_start_date">2024-02-01</field>
-            <field name="offer_date">2024-01-11 14:30:00</field>
-        </record>
-        
+    <record id="property_offer_1" model="soya.property.offer">
+        <field name="property_id" ref="property_villa_badalabougou"/>
+        <field name="partner_id" ref="res_partner_etc"/>
+        <field name="price">80000000</field>
+        <field name="state">draft</field>
+        <field name="date_deadline">2024-12-31</field>
+    </record>
 
-    </data>
+    <record id="property_offer_2" model="soya.property.offer">
+        <field name="property_id" ref="property_appartement_aci"/>
+        <field name="partner_id" ref="res_partner_keita"/>
+        <field name="price">44000000</field>
+        <field name="state">accepted</field>
+        <field name="date_deadline">2024-11-30</field>
+    </record>
+
 </odoo>

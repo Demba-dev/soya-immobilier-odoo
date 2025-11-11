@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- =========================================== -->
+        <!-- VUES POUR CONTRAT DE LOCATION -->
+        <!-- =========================================== -->
+
+        <!-- Vue Arbre Contrats Location -->
+        <record id="view_rental_contract_tree" model="ir.ui.view">
+            <field name="name">soya.rental.contract.tree</field>
+            <field name="model">soya.rental.contract</field>
+            <field name="arch" type="xml">
+                <tree string="Contrats de Location" decoration-success="state == 'active'" decoration-warning="state == 'waiting_signature'" decoration-danger="state in ['expired', 'terminated']" decoration-muted="state == 'draft'">
+                    <field name="name" string="Référence"/>
+                    <field name="property_id" string="Bien"/>
+                    <field name="tenant_id" string="Locataire"/>
+                    <field name="monthly_rent" string="Loyer Mensuel"/>
+                    <field name="start_date" string="Début"/>
+                    <field name="end_date" string="Fin"/>
+                    <field name="remaining_days" string="Jours Restants"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Recherche Contrats Location -->
+        <record id="view_rental_contract_search" model="ir.ui.view">
+            <field name="name">soya.rental.contract.search</field>
+            <field name="model">soya.rental.contract</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Contrat Location">
+                    <field name="name" string="Référence"/>
+                    <field name="property_id" string="Bien"/>
+                    <field name="tenant_id" string="Locataire"/>
+                    <field name="landlord_id" string="Propriétaire"/>
+                    <filter string="Contrats Actifs" name="active" domain="[('state','=','active')]"/>
+                    <filter string="À Signer" name="waiting_signature" domain="[('state','=','waiting_signature')]"/>
+                    <filter string="Expirant Bientôt" name="expiring_soon" domain="[('is_expiring_soon','=',True)]"/>
+                    <filter string="Mes contrats" name="my_contracts" domain="[('create_uid','=',uid)]"/>
+                    <group expand="0" string="Regrouper par">
+                        <filter string="Par Statut" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Par Propriétaire" name="group_landlord" context="{'group_by': 'landlord_id'}"/>
+                        <filter string="Par Type de Bien" name="group_property_type" context="{'group_by': 'property_type_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire Contrat Location -->
+        <record id="view_rental_contract_form" model="ir.ui.view">
+            <field name="name">soya.rental.contract.form</field>
+            <field name="model">soya.rental.contract</field>
+            <field name="arch" type="xml">
+                <form string="Contrat de Location">
+                    <header>
+                        <button name="action_activate_contract" type="object" string="Activer le Contrat" invisible="state!='waiting_signature'" class="btn-primary"/>
+                        <button name="action_terminate_contract" type="object" string="Résilier le Contrat" invisible="state!='active'" class="btn-danger"/>
+                        <button name="action_generate_document" type="object" string="Générer le Contrat" class="btn-outline-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,waiting_signature,active,expired,terminated,cancelled" class="oe_statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Référence du contrat..." class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Informations Générales">
+                                <field name="property_id" options="{'no_create': True}" required="1"/>
+                                <field name="tenant_id" required="1"/>
+                                <field name="landlord_id" required="1"/>
+                                <field name="state"/>
+                            </group>
+                            <group string="Durée du Contrat">
+                                <field name="start_date" required="1"/>
+                                <field name="duration_months" required="1"/>
+                                <field name="end_date" readonly="1"/>
+                                <field name="remaining_days" readonly="1" string="Jours restants"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Conditions Financières">
+                                <group>
+                                    <group string="Loyers et Charges">
+                                        <field name="monthly_rent" required="1"/>
+                                        <field name="charges_amount"/>
+                                        <field name="deposit_amount"/>
+                                    </group>
+                                    <group string="Renouvellement">
+                                        <field name="renewal_conditions"/>
+                                        <field name="notice_period"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Informations Légales">
+                                <group>
+                                    <group string="Références Légales">
+                                        <field name="land_title_reference" readonly="1"/>
+                                        <field name="court_jurisdiction"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Documents">
+                                <field name="document_ids">
+                                    <tree string="Documents">
+                                        <field name="name"/>
+                                        <field name="document_type"/>
+                                        <field name="upload_date"/>
+                                        <field name="uploaded_by"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="document_type"/>
+                                            <field name="document_file" filename="document_filename"/>
+                                            <field name="document_filename" invisible="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vue Arbre Contrats Vente -->
+        <record id="view_sale_contract_tree" model="ir.ui.view">
+            <field name="name">soya.sale.contract.tree</field>
+            <field name="model">soya.sale.contract</field>
+            <field name="arch" type="xml">
+                <tree string="Contrats de Vente" decoration-success="state == 'active'" decoration-warning="state == 'waiting_signature'" decoration-danger="state in ['expired', 'terminated']">
+                    <field name="name" string="Référence"/>
+                    <field name="property_id" string="Bien"/>
+                    <field name="buyer_id" string="Acheteur"/>
+                    <field name="sale_price" string="Prix de Vente"/>
+                    <field name="notary_id" string="Notaire"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vue Formulaire Contrat Vente -->
+        <record id="view_sale_contract_form" model="ir.ui.view">
+            <field name="name">soya.sale.contract.form</field>
+            <field name="model">soya.sale.contract</field>
+            <field name="arch" type="xml">
+                <form string="Contrat de Vente">
+                    <header>
+                        <button name="action_activate_contract" type="object" string="Activer le Contrat" invisible="state!='waiting_signature'" class="btn-primary"/>
+                        <button name="action_terminate_contract" type="object" string="Résilier le Contrat" invisible="state!='active'" class="btn-danger"/>
+                        <button name="action_generate_document" type="object" string="Générer l'Acte" class="btn-outline-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,waiting_signature,active,terminated,cancelled" class="oe_statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Référence du contrat..."/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Parties Contractantes">
+                                <field name="property_id" required="1"/>
+                                <field name="buyer_id" required="1"/>
+                                <field name="landlord_id" required="1"/>
+                            </group>
+                            <group string="Conditions de Vente">
+                                <field name="sale_price" required="1"/>
+                                <field name="down_payment"/>
+                                <field name="payment_terms"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Acte Notarié">
+                                <group>
+                                    <group string="Notaire">
+                                        <field name="notary_id"/>
+                                        <field name="deed_date"/>
+                                        <field name="deed_reference"/>
+                                    </group>
+                                    <group string="Conditions Suspensives">
+                                        <field name="suspensive_conditions" nolabel="1" placeholder="Conditions suspensives (prêt bancaire, etc.)..."/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <page string="Informations Légales">
+                                <group>
+                                    <field name="land_title_reference" readonly="1"/>
+                                    <field name="court_jurisdiction"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Vue Arbre Avenants -->
+        <record id="view_amendment_tree" model="ir.ui.view">
+            <field name="name">soya.contract.amendment.tree</field>
+            <field name="model">soya.contract.amendment</field>
+            <field name="arch" type="xml">
+                <tree string="Avenants aux Contrats">
+                    <field name="contract_id" string="Contrat Parent"/>
+                    <field name="amendment_type" string="Type d'Avenant"/>
+                    <field name="amendment_date" string="Date Avenant"/>
+                    <field name="effective_date" string="Date d'Effet"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Vue Formulaire Avenant -->
+        <record id="view_amendment_form" model="ir.ui.view">
+            <field name="name">soya.contract.amendment.form</field>
+            <field name="model">soya.contract.amendment</field>
+            <field name="arch" type="xml">
+                <form string="Avenant au Contrat">
+                    <header>
+                        <button name="action_validate_amendment" type="object" string="Valider l'Avenant" invisible="state!='draft'" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,signed,cancelled"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group string="Contrat Parent">
+                                <field name="contract_id" required="1"/>
+                                <field name="contract_type" readonly="1"/>
+                            </group>
+                            <group string="Avenant">
+                                <field name="amendment_type" required="1"/>
+                                <field name="amendment_date" required="1"/>
+                                <field name="effective_date" required="1"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Modifications">
+                            <field name="description" nolabel="1" placeholder="Description détaillée des modifications apportées par cet avenant..." required="1"/>
+                        </group>
+                        
+                        <group>
+                            <group string="Ancienne Valeur">
+                                <field name="old_value" placeholder="Valeur avant modification..."/>
+                            </group>
+                            <group string="Nouvelle Valeur">
+                                <field name="new_value" placeholder="Valeur après modification..."/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <record id="action_rental_contract" model="ir.actions.act_window">
+            <field name="name">Contrats de Location</field>
+            <field name="res_model">soya.rental.contract</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier contrat de location
+                </p>
+                <p>
+                    Gérez les contrats de location avec suivi des loyers, dépôts de garantie et renouvellements.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_sale_contract" model="ir.actions.act_window">
+            <field name="name">Contrats de Vente</field>
+            <field name="res_model">soya.sale.contract</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer votre premier contrat de vente
+                </p>
+                <p>
+                    Gérez les transactions immobilières avec suivi des actes notariés et conditions de vente.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_amendment" model="ir.actions.act_window">
+            <field name="name">Avenants aux Contrats</field>
+            <field name="res_model">soya.contract.amendment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+       
+
+
+    </data>
+</odoo>
