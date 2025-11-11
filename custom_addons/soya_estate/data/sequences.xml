@@ -46,5 +46,14 @@
             <field name="implementation">standard</field>
         </record>
 
+        <!-- Séquence pour les factures financières -->
+        <record id="seq_soya_financial_invoice" model="ir.sequence">
+            <field name="name">Séquence Factures Financières SOYA</field>
+            <field name="code">soya.financial.invoice</field>
+            <field name="prefix">FAC/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
     </data>
 </odoo>

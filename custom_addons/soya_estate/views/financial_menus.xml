@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu racine Finances -->
+    <record id="menu_finance_root" model="ir.ui.menu">
+        <field name="name">Gestion Financière</field>
+        <field name="parent_id" ref="menu_soya_estate_root"/>
+        <field name="sequence">50</field>
+        <field name="web_icon">fa-calculator</field>
+    </record>
+
+    <!-- Sous-menu Factures -->
+    <record id="menu_financial_invoice" model="ir.ui.menu">
+        <field name="name">Factures</field>
+        <field name="parent_id" ref="menu_finance_root"/>
+        <field name="action" ref="action_financial_invoice"/>
+        <field name="sequence">10</field>
+        <field name="web_icon">fa-file-invoice-dollar</field>
+    </record>
+
+    
+</odoo>

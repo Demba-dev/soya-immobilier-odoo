@@ -6,3 +6,5 @@ from . import sale_contract
 from . import rental_contract
 from . import amendment
 from . import document
+from . import financial_invoice
+from . import rent_scheduler

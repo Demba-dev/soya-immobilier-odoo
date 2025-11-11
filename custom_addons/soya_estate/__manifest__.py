@@ -21,6 +21,7 @@
         'base', 
         'mail', 
         'website',
+        'board',
     ],
 
     
@@ -47,6 +48,8 @@
         'views/property_offer_views.xml',
         'views/contract_views.xml',
         'views/contract_menus.xml',
+        'views/financial_views.xml',
+        'views/financial_menus.xml',
         
         # ========================
         # 4. VUES WEB ET WIZARDS

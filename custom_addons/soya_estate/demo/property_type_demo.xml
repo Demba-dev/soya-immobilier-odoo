@@ -193,4 +193,48 @@
         <field name="date_deadline">2024-11-30</field>
     </record>
 
+    <!-- =========================================== -->
+    <!-- FACTURES FINANCIÈRES DE DÉMONSTRATION -->
+    <!-- =========================================== -->
+
+    <!-- Quittance de Loyer -->
+    <record id="demo_invoice_rent_1" model="soya.financial.invoice">
+        <field name="name">QUIT-LOC-2024-001</field>
+        <field name="invoice_type">rent</field>
+        <field name="contract_id" ref="demo_rental_contract_1"/>
+        <field name="partner_id" ref="res_partner_keita"/>
+        <field name="amount">260000</field>
+        <field name="period_start">2024-02-01</field>
+        <field name="period_end">2024-02-29</field>
+        <field name="invoice_date">2024-01-25</field>
+        <field name="state">paid</field>
+        <field name="payment_date">2024-02-05</field>
+    </record>
+
+    <record id="demo_invoice_rent_2" model="soya.financial.invoice">
+        <field name="name">QUIT-LOC-2024-002</field>
+        <field name="invoice_type">rent</field>
+        <field name="contract_id" ref="demo_rental_contract_1"/>
+        <field name="partner_id" ref="res_partner_keita"/>
+        <field name="amount">260000</field>
+        <field name="period_start">2024-03-01</field>
+        <field name="period_end">2024-03-31</field>
+        <field name="invoice_date">2024-02-25</field>
+        <field name="state">sent</field>
+    </record>
+
+    <!-- Facture de Charges -->
+    <record id="demo_invoice_charges_1" model="soya.financial.invoice">
+        <field name="name">CHARGES-LOC-2024-001</field>
+        <field name="invoice_type">charge</field>
+        <field name="contract_id" ref="demo_rental_contract_1"/>
+        <field name="partner_id" ref="res_partner_keita"/>
+        <field name="amount">25000</field>
+        <field name="period_start">2024-02-01</field>
+        <field name="period_end">2024-02-29</field>
+        <field name="invoice_date">2024-03-05</field>
+        <field name="state">sent</field>
+    </record>
+    
+
 </odoo>

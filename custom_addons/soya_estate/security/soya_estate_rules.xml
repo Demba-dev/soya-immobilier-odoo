@@ -69,5 +69,24 @@
             <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
         </record>
 
+        <!-- === RÈGLES POUR LES FACTURES FINANCIÈRES === -->
+        
+        <!-- Manager: Accès complet à toutes les factures -->
+        <record id="soya_financial_invoice_manager_rule" model="ir.rule">
+            <field name="name">SOYA Manager: Toutes les factures</field>
+            <field name="model_id" ref="model_soya_financial_invoice"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_manager'))]"/>
+        </record>
+
+        <!-- Agent: Ne voit que les factures de ses contrats -->
+        <record id="soya_financial_invoice_agent_rule" model="ir.rule">
+            <field name="name">SOYA Agent: Factures de ses contrats</field>
+            <field name="model_id" ref="model_soya_financial_invoice"/>
+            <field name="domain_force">[('contract_id.property_id.salesperson_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
+        </record>
+         
+
     </data>
 </odoo>
