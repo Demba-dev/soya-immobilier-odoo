@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_payment_history_tree" model="ir.ui.view">
+            <field name="name">soya.payment.history.tree</field>
+            <field name="model">soya.payment.history</field>
+            <field name="arch" type="xml">
+                <tree string="Historique des Transactions" decoration-success="status == 'reconciled'" decoration-danger="status == 'cancelled'">
+                    <field name="transaction_date"/>
+                    <field name="transaction_time"/>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                    <field name="amount" widget="monetary"/>
+                    <field name="payment_method"/>
+                    <field name="reference_number"/>
+                    <field name="status" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        
+
+        <record id="action_payment_history" model="ir.actions.act_window">
+            <field name="name">Historique des Transactions</field>
+            <field name="res_model">soya.payment.history</field>
+            <field name="view_mode">tree</field>
+        </record>
+    </data>
+</odoo>

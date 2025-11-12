@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_overdue_status_tree" model="ir.ui.view">
+            <field name="name">soya.overdue.status.tree</field>
+            <field name="model">soya.overdue.status</field>
+            <field name="arch" type="xml">
+                <tree string="État des Impayés" decoration-danger="days_overdue > 30" decoration-warning="days_overdue > 15">
+                    <field name="invoice_number"/>
+                    <field name="partner_id"/>
+                    <field name="property_id"/>
+                    <field name="total_amount" widget="monetary"/>
+                    <field name="paid_amount" widget="monetary"/>
+                    <field name="remaining_amount" widget="monetary"/>
+                    <field name="due_date"/>
+                    <field name="days_overdue"/>
+                    <field name="invoice_state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        
+
+        <record id="action_overdue_status" model="ir.actions.act_window">
+            <field name="name">État des Impayés</field>
+            <field name="res_model">soya.overdue.status</field>
+            <field name="view_mode">tree</field>
+           
+        </record>
+    </data>
+</odoo>

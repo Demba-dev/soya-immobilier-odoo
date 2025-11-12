@@ -16,7 +16,44 @@
         <field name="sequence">10</field>
         <field name="web_icon">fa-file-invoice-dollar</field>
     </record>
+    <!-- Sous-menu Paiements -->
+    <record id="menu_payment" model="ir.ui.menu">
+        <field name="name">Paiements</field>
+        <field name="parent_id" ref="menu_finance_root"/>
+        <field name="action" ref="action_payment"/>
+        <field name="sequence">20</field>
+        <field name="web_icon">fa-credit-card</field>
+    </record>
+
+    <!-- Sous-menu État des Impayés -->
+    <record id="menu_overdue_status" model="ir.ui.menu">
+        <field name="name">État des Impayés</field>
+        <field name="parent_id" ref="menu_finance_root"/>
+        <field name="action" ref="action_overdue_status"/>
+        <field name="sequence">30</field>
+        <field name="web_icon">fa-exclamation-triangle</field>
+    </record>
+
+    <!-- Sous-menu Réconciliation Bancaire -->
+    <record id="menu_bank_reconciliation" model="ir.ui.menu">
+        <field name="name">Réconciliation Bancaire</field>
+        <field name="parent_id" ref="menu_finance_root"/>
+        <field name="action" ref="action_bank_reconciliation"/>
+        <field name="sequence">40</field>
+        <field name="web_icon">fa-sync-alt</field>
+    </record>
+
+    <!-- Sous-menu Historique des Transactions -->
+    <record id="menu_payment_history" model="ir.ui.menu">
+        <field name="name">Historique des Transactions</field>
+        <field name="parent_id" ref="menu_finance_root"/>
+        <field name="action" ref="action_payment_history"/>
+        <field name="sequence">50</field>
+        <field name="web_icon">fa-history</field>
+    </record>
+
+
+</odoo>
     
 
     
-</odoo>

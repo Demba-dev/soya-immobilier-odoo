@@ -155,7 +155,7 @@
                                 <!-- Contenu de la carte -->
                                 <div class="o_kanban_card_content">
                                     <div>
-                                        <i class="fa fa-tag mr-2"/>
+                                        <i class="fa fa-tag mr-2" title="Catégorie"></i>
                                         <span t-esc="category"/>
                                     </div>
                                     <div t-if="sales_commission_rate &gt; 0">
@@ -220,20 +220,6 @@
             <field name="target">new</field>
             <field name="view_id" ref="view_property_type_form"/>
         </record>
-
-        <!-- === MENUS POUR LES TYPES DE BIENS === -->
-        
-        <!-- Menu pour les Types de Biens -->
-        <menuitem id="menu_property_type" name="Types de Biens" 
-                  parent="menu_soya_estate_root" 
-                  action="action_property_type" 
-                  sequence="10"/>
-                  
-        <!-- Sous-menu pour créer un type -->
-        <menuitem id="menu_property_type_create" name="Nouveau Type" 
-                  parent="menu_property_type" 
-                  action="action_property_type_create" 
-                  sequence="10"/>
 
     </data>
 </odoo>

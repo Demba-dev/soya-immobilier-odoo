@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 from datetime import timedelta
 
 class SoyaRentalContract(models.Model):
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _name = 'soya.rental.contract'
     _description = 'Contrat de Location - SOYA'
     _inherits = {'soya.base.contract': 'base_contract_id'}
@@ -132,3 +133,6 @@ class SoyaRentalContract(models.Model):
                 if contract.property_id:
                     contract.property_id.state = 'new'
                     contract.property_id.current_tenant_id = False
+
+    def _valid_field_parameter(self, field, param):
+        return param == 'tracking' or super()._valid_field_parameter(field, param)

@@ -1,28 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- 1. Vue du tableau de bord global -->
+        <!-- Vue du tableau de bord global amélioré -->
         <record id="view_soya_estate_dashboard_form" model="ir.ui.view">
             <field name="name">soya.estate.dashboard.form</field>
             <field name="model">board.board</field>
             <field name="arch" type="xml">
                 <form string="Tableau de Bord Immobilier">
-                    <board style="2-1">
+                    <div class="o_dashboard_container">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card dashboard-card bg-primary text-white">
+                                    <div class="card-body text-center">
+                                        <i class="fa fa-home fa-3x mb-3" title="Biens Immobiliers"></i>
+                                        <h5 class="card-title">Biens Immobiliers</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card dashboard-card bg-success text-white">
+                                    <div class="card-body text-center">
+                                        <i class="fa fa-file-invoice fa-3x mb-3" title="Factures"></i>
+                                        <h5 class="card-title">Factures</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card dashboard-card bg-info text-white">
+                                    <div class="card-body text-center">
+                                        <i class="fa fa-users fa-3x mb-3" title="Clients"></i>
+                                        <h5 class="card-title">Clients</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card dashboard-card bg-warning text-white">
+                                    <div class="card-body text-center">
+                                        <i class="fa fa-file-contract fa-3x mb-3" title="Contrats"></i>
+                                        <h5 class="card-title">Contrats</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <board style="1-1">
                         <column>
-                            <action name="%(soya_estate.action_property)d" string="Liste des Biens"/>
-                            <action name="%(soya_estate.action_financial_invoice)d" string="Factures"/>
+                            <action name="%(soya_estate.action_property)d" string="📋 Liste des Biens" />
+                            <action name="%(soya_estate.action_partner)d" string="👥 Clients"/>
                         </column>
                         <column>
-                            <action name="%(soya_estate.action_partner)d" string="Clients"/>
-                            <action name="%(soya_estate.action_rental_contract)d" string="Contrats"/>
+                            <action name="%(soya_estate.action_financial_invoice)d" string="💰 Factures"/>
+                            <action name="%(soya_estate.action_rental_contract)d" string="📜 Contrats"/>
                         </column>
                     </board>
-
                 </form>
             </field>
         </record>
 
-        <!-- 2. Action pour accéder au tableau de bord -->
+        <!-- Action pour accéder au tableau de bord -->
         <record id="action_soya_estate_dashboard" model="ir.actions.act_window">
             <field name="name">Tableau de Bord Immobilier</field>
             <field name="res_model">board.board</field>
@@ -31,7 +67,7 @@
             <field name="target">current</field>
         </record>
 
-        <!-- 3. Élément de menu pour le tableau de bord -->
-        <menuitem id="dashboard_menu" name="Tableau de Bord" parent="menu_soya_estate_root" action="action_soya_estate_dashboard" sequence="10"/>
+        <!-- Élément de menu pour le tableau de bord -->
+        <menuitem id="dashboard_menu" name="📊 Tableau de Bord" parent="menu_soya_estate_root" action="action_soya_estate_dashboard" sequence="10"/>
     </data>
 </odoo>

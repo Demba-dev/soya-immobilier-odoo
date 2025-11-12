@@ -179,7 +179,7 @@ class SoyaPropertyOffer(models.Model):
     
     # === RELATIONS ===
     contract_id = fields.Many2one(
-        'soya.property.contract',
+        'soya.rental.contract',
         string="Contrat généré"
     )
     
@@ -401,3 +401,5 @@ class SoyaPropertyOffer(models.Model):
         
         # Logger l'action
         _logger.info(f"{len(expired_offers)} offres marquées comme expirées")
+
+    

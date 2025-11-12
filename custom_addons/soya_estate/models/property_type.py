@@ -270,3 +270,4 @@ class SoyaPropertyType(models.Model):
         for type_vals in default_types:
             if not self.search_count([('code', '=', type_vals['code'])]):
                 self.create(type_vals)
+

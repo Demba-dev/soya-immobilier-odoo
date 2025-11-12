@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu racine Propriétés -->
+    <record id="menu_property_root" model="ir.ui.menu">
+        <field name="name">Gestion des Biens</field>
+        <field name="parent_id" ref="menu_soya_estate_root"/>
+        <field name="sequence">10</field>
+        <field name="web_icon">fa-building</field>
+    </record>
+    <!-- Sous-menu Biens Immobiliers -->
+    <record id="menu_property" model="ir.ui.menu">
+        <field name="name">Biens Immobiliers</field>
+        <field name="parent_id" ref="menu_property_root"/>
+        <field name="action" ref="action_property"/>
+        <field name="sequence">10</field>
+        <field name="web_icon">fa-home</field>
+    </record>
+    <!-- Sous-menu Type de Propriété -->
+    <record id="menu_property_type" model="ir.ui.menu">
+        <field name="name">Type de Propriété</field>
+        <field name="parent_id" ref="menu_property_root"/>
+        <field name="action" ref="action_property_type"/>
+        <field name="sequence">20</field>
+        <field name="web_icon">fa-list-alt</field>
+    </record>
+    <!-- Sous-menu Offres -->
+    <record id="menu_property_offer" model="ir.ui.menu">
+        <field name="name">Offres</field>
+        <field name="parent_id" ref="menu_property_root"/>
+        <field name="action" ref="action_property_offer"/>
+        <field name="sequence">30</field>
+        <field name="web_icon">fa-handshake</field>
+    </record>
+</odoo>

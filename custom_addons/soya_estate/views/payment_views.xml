@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vue Arbre pour les Paiements -->
+        <record id="view_payment_tree" model="ir.ui.view">
+            <field name="name">soya.payment.tree</field>
+            <field name="model">soya.payment</field>
+            <field name="arch" type="xml">
+                <tree string="Paiements" decoration-success="state == 'reconciled'" decoration-warning="state == 'confirmed'" decoration-danger="state == 'cancelled'">
+                    <field name="name" string="Référence"/>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                    <field name="amount" widget="monetary"/>
+                    <field name="payment_method"/>
+                    <field name="payment_date"/>
+                    <field name="state" widget="badge"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vue Recherche pour les Paiements -->
+        <record id="view_payment_search" model="ir.ui.view">
+            <field name="name">soya.payment.search</field>
+            <field name="model">soya.payment</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher un Paiement">
+                    <field name="name"/>
+                    <field name="invoice_id"/>
+                    <field name="partner_id"/>
+                    <field name="reference_number"/>
+                    <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Confirmés" name="confirmed" domain="[('state','=','confirmed')]"/>
+                    <filter string="Réconciliés" name="reconciled" domain="[('state','=','reconciled')]"/>
+                    <group expand="0" string="Regrouper par">
+                        <filter string="Par Méthode" name="group_method" context="{'group_by': 'payment_method'}"/>
+                        <filter string="Par État" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Par Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Par Date" name="group_date" context="{'group_by': 'payment_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vue Formulaire pour les Paiements -->
+        <record id="view_payment_form" model="ir.ui.view">
+            <field name="name">soya.payment.form</field>
+            <field name="model">soya.payment</field>
+            <field name="arch" type="xml">
+                <form string="Paiement">
+                    <header>
+                        <button name="action_confirm" type="object" string="Confirmer" invisible="state != 'draft'" class="btn-primary"/>
+                        <button name="action_reconcile" type="object" string="Réconcilier" invisible="state != 'confirmed'" class="btn-success"/>
+                        <button name="action_cancel" type="object" string="Annuler" invisible="state in ['cancelled','reconciled']" class="btn-danger"/>
+                        <button name="action_draft" type="object" string="Brouillon" invisible="state not in ['cancelled','confirmed']" class="btn-outline-secondary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,reconciled,cancelled"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_invoice" type="object" class="oe_stat_button" icon="fa-file-invoice">
+                                <span>Facture</span>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Informations Générales">
+                                <field name="invoice_id" required="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="property_id" readonly="1"/>
+                            </group>
+                            <group string="Montants">
+                                <field name="amount" widget="monetary" required="1"/>
+                                <field name="currency_id" readonly="1"/>
+                                <field name="remaining_amount" widget="monetary" readonly="1"/>
+                            </group>
+                        </group>
+
+                        <group string="Détails du Paiement">
+                            <group>
+                                <field name="payment_date" required="1"/>
+                                <field name="payment_method" required="1"/>
+                            </group>
+                            <group>
+                                <field name="reference_number"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes" nolabel="1" placeholder="Ajouter des notes..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action pour les Paiements -->
+        <record id="action_payment" model="ir.actions.act_window">
+            <field name="name">Paiements</field>
+            <field name="res_model">soya.payment</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_confirmed': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Enregistrer votre premier paiement
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

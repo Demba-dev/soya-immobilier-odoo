@@ -7,4 +7,8 @@ from . import rental_contract
 from . import amendment
 from . import document
 from . import financial_invoice
+from . import payment
 from . import rent_scheduler
+from . import overdue_status
+from . import bank_reconciliation
+from . import payment_history

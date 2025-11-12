@@ -129,6 +129,13 @@ class SoyaFinancialInvoice(models.Model):
         string='Jours de Retard',
         compute='_compute_overdue_days'
     )
+
+    payment_ids = fields.One2many(
+        'soya.payment',
+        'invoice_id',
+        string='Paiements Associés'
+        
+    )
     
     # === CHAMPS CALCULÉS ===
     @api.depends('amount', 'invoice_type')

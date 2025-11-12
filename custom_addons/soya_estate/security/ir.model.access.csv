@@ -27,3 +27,13 @@ access_soya_base_contract_manager,SOYA Base Contract Manager,model_soya_base_con
 access_soya_financial_invoice,soya.financial.invoice,model_soya_financial_invoice,group_soya_estate_user,1,1,1,0
 access_soya_financial_invoice_manager,soya.financial.invoice,model_soya_financial_invoice,group_soya_estate_manager,1,1,1,1
 access_soya_rent_scheduler,soya.rent.scheduler,model_soya_rent_scheduler,group_soya_estate_manager,1,0,0,0
+access_soya_payment_user,SOYA Payment User,model_soya_payment,group_soya_estate_user,1,0,0,0
+access_soya_payment_agent,SOYA Payment Agent,model_soya_payment,group_soya_estate_agent,1,1,1,0
+access_soya_payment_manager,SOYA Payment Manager,model_soya_payment,group_soya_estate_manager,1,1,1,1
+access_soya_overdue_status_user,SOYA Overdue Status User,model_soya_overdue_status,group_soya_estate_user,1,0,0,0
+access_soya_overdue_status_manager,SOYA Overdue Status Manager,model_soya_overdue_status,group_soya_estate_manager,1,0,0,0
+access_soya_bank_reconciliation_user,SOYA Bank Reconciliation User,model_soya_bank_reconciliation,group_soya_estate_user,1,0,0,0
+access_soya_bank_reconciliation_agent,SOYA Bank Reconciliation Agent,model_soya_bank_reconciliation,group_soya_estate_agent,1,1,1,0
+access_soya_bank_reconciliation_manager,SOYA Bank Reconciliation Manager,model_soya_bank_reconciliation,group_soya_estate_manager,1,1,1,1
+access_soya_payment_history_user,SOYA Payment History User,model_soya_payment_history,group_soya_estate_user,1,0,0,0
+access_soya_payment_history_manager,SOYA Payment History Manager,model_soya_payment_history,group_soya_estate_manager,1,0,0,0
