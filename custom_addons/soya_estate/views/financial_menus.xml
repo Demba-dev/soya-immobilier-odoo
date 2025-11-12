@@ -16,6 +16,7 @@
         <field name="sequence">10</field>
         <field name="web_icon">fa-file-invoice-dollar</field>
     </record>
+    
 
     
 </odoo>

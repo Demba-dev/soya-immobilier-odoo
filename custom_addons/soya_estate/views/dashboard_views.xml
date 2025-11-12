@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- 1. Vue du tableau de bord global -->
+        <record id="view_soya_estate_dashboard_form" model="ir.ui.view">
+            <field name="name">soya.estate.dashboard.form</field>
+            <field name="model">board.board</field>
+            <field name="arch" type="xml">
+                <form string="Tableau de Bord Immobilier">
+                    <board style="2-1">
+                        <column>
+                            <action name="%(soya_estate.action_property)d" string="Liste des Biens"/>
+                            <action name="%(soya_estate.action_financial_invoice)d" string="Factures"/>
+                        </column>
+                        <column>
+                            <action name="%(soya_estate.action_partner)d" string="Clients"/>
+                            <action name="%(soya_estate.action_rental_contract)d" string="Contrats"/>
+                        </column>
+                    </board>
+
+                </form>
+            </field>
+        </record>
+
+        <!-- 2. Action pour accéder au tableau de bord -->
+        <record id="action_soya_estate_dashboard" model="ir.actions.act_window">
+            <field name="name">Tableau de Bord Immobilier</field>
+            <field name="res_model">board.board</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_soya_estate_dashboard_form"/>
+            <field name="target">current</field>
+        </record>
+
+        <!-- 3. Élément de menu pour le tableau de bord -->
+        <menuitem id="dashboard_menu" name="Tableau de Bord" parent="menu_soya_estate_root" action="action_soya_estate_dashboard" sequence="10"/>
+    </data>
+</odoo>

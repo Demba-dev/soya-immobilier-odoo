@@ -22,6 +22,7 @@
         'mail', 
         'website',
         'board',
+        'spreadsheet_dashboard',
     ],
 
     
@@ -48,8 +49,10 @@
         'views/property_offer_views.xml',
         'views/contract_views.xml',
         'views/contract_menus.xml',
+        'views/dashboard_views.xml',
         'views/financial_views.xml',
         'views/financial_menus.xml',
+        'report/financial_invoice_report.xml',
         
         # ========================
         # 4. VUES WEB ET WIZARDS
@@ -71,6 +74,7 @@
         ],
     },
     
+    'icon': '/soya_estate/static/description/soya_logo.png',
     'installable': True,
     'application': True,
     'license': 'LGPL-3',

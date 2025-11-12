@@ -65,7 +65,10 @@
                         <button name="action_mark_paid" type="object" string="Marquer comme Payée" invisible="state not in ['sent','overdue']" class="btn-success"/>
                         <button name="action_cancel_invoice" type="object" string="Annuler" invisible="state in ['paid','cancelled']" class="btn-danger"/>
                         <button name="action_generate_penalty" type="object" string="Générer Pénalité" invisible="is_overdue == False" class="btn-warning"/>
+                        <!-- BOUTON IMPRESSION -->
+                        <button name="action_print_invoice" type="object" string="Imprimer" class="btn-info" invisible="invoice_type != 'rent'"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,sent,overdue,paid,cancelled" class="oe_statusbar"/>
+                        
                     </header>
                     
                     <sheet>

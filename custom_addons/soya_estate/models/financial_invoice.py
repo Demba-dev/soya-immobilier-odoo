@@ -18,6 +18,8 @@ class SoyaFinancialInvoice(models.Model):
         default=lambda self: self._generate_invoice_number(),
         tracking=True
     )
+
+    company_id = fields.Many2one('res.company', string="Société", default=lambda self: self.env.company)
     
     invoice_type = fields.Selection([
         ('rent', 'Quittance de Loyer'),
@@ -253,3 +255,10 @@ class SoyaFinancialInvoice(models.Model):
             _logger.info(f"Facture {invoice.name} marquée comme en retard")
         
         return len(overdue_invoices)
+    
+    def action_print_invoice(self):
+        """Imprimer la facture/quittance"""
+        company = self.company_id or self.env.company
+        return self.env.ref('soya_estate.action_report_financial_invoice').report_action(
+            self.with_context(company=company)
+    )

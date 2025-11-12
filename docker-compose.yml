@@ -35,7 +35,7 @@ services:
         condition: service_started
     ports:
       - "8069:8069"
-      - "8072:8072"
+      - "8073:8073"
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./custom_addons:/mnt/extra-addons
