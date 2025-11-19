@@ -48,6 +48,10 @@
         'views/property_type_views.xml',
         'views/property_offer_views.xml',
         'views/property_menus.xml',
+        'views/prospect_views.xml',
+        'views/visit_views.xml',
+        'views/sales_activity_views.xml',
+        'views/visit_statistics_views.xml',
         'views/contract_views.xml',
         'views/contract_menus.xml',
         'views/dashboard_views.xml',
@@ -57,7 +61,9 @@
         'views/bank_reconciliation_views.xml',
         'views/payment_history_views.xml',
         'views/financial_menus.xml',
+        'views/prospect_menus.xml',
         'report/financial_invoice_report.xml',
+        'report/sales_activity_report.xml',
         
         # ========================
         # 4. VUES WEB ET WIZARDS

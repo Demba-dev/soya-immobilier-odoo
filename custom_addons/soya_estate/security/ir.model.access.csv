@@ -37,3 +37,18 @@ access_soya_bank_reconciliation_agent,SOYA Bank Reconciliation Agent,model_soya_
 access_soya_bank_reconciliation_manager,SOYA Bank Reconciliation Manager,model_soya_bank_reconciliation,group_soya_estate_manager,1,1,1,1
 access_soya_payment_history_user,SOYA Payment History User,model_soya_payment_history,group_soya_estate_user,1,0,0,0
 access_soya_payment_history_manager,SOYA Payment History Manager,model_soya_payment_history,group_soya_estate_manager,1,0,0,0
+access_soya_prospect_user,SOYA Prospect User,model_soya_prospect,group_soya_estate_user,1,0,0,0
+access_soya_prospect_agent,SOYA Prospect Agent,model_soya_prospect,group_soya_estate_agent,1,1,1,0
+access_soya_prospect_manager,SOYA Prospect Manager,model_soya_prospect,group_soya_estate_manager,1,1,1,1
+access_soya_visit_user,SOYA Visit User,model_soya_visit,group_soya_estate_user,1,0,0,0
+access_soya_visit_agent,SOYA Visit Agent,model_soya_visit,group_soya_estate_agent,1,1,1,0
+access_soya_visit_manager,SOYA Visit Manager,model_soya_visit,group_soya_estate_manager,1,1,1,1
+access_soya_sales_activity_user,SOYA Sales Activity User,model_soya_sales_activity,group_soya_estate_user,1,0,0,0
+access_soya_sales_activity_agent,SOYA Sales Activity Agent,model_soya_sales_activity,group_soya_estate_agent,1,1,1,0
+access_soya_sales_activity_manager,SOYA Sales Activity Manager,model_soya_sales_activity,group_soya_estate_manager,1,1,1,1
+access_soya_visit_statistics_user,SOYA Visit Statistics User,model_soya_visit_statistics,group_soya_estate_user,1,0,0,0
+access_soya_visit_statistics_agent,SOYA Visit Statistics Agent,model_soya_visit_statistics,group_soya_estate_agent,1,0,0,0
+access_soya_visit_statistics_manager,SOYA Visit Statistics Manager,model_soya_visit_statistics,group_soya_estate_manager,1,0,0,0
+access_soya_conversion_statistics_user,SOYA Conversion Statistics User,model_soya_conversion_statistics,group_soya_estate_user,1,0,0,0
+access_soya_conversion_statistics_agent,SOYA Conversion Statistics Agent,model_soya_conversion_statistics,group_soya_estate_agent,1,0,0,0
+access_soya_conversion_statistics_manager,SOYA Conversion Statistics Manager,model_soya_conversion_statistics,group_soya_estate_manager,1,0,0,0

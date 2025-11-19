@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Visit Statistics Tree View -->
+        <record id="soya_visit_statistics_tree_view" model="ir.ui.view">
+            <field name="name">soya.visit.statistics.tree</field>
+            <field name="model">soya.visit.statistics</field>
+            <field name="arch" type="xml">
+                <tree string="Statistiques des Visites" decoration-info="conversion_rate &gt;= 50" decoration-warning="conversion_rate &lt; 30">
+                    <field name="agent_id"/>
+                    <field name="property_id"/>
+                    <field name="total_visits"/>
+                    <field name="completed_visits"/>
+                    <field name="converted_visits"/>
+                    <field name="conversion_rate" widget="float" string="Conversion %"/>
+                    <field name="very_interested_count"/>
+                    <field name="not_interested_count"/>
+                    <field name="avg_quality_score"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Visit Statistics Form View -->
+        <record id="soya_visit_statistics_form_view" model="ir.ui.view">
+            <field name="name">soya.visit.statistics.form</field>
+            <field name="model">soya.visit.statistics</field>
+            <field name="arch" type="xml">
+                <form string="Statistiques de Visite" readonly="1">
+                    <sheet>
+                        <group>
+                            <group string="Informations">
+                                <field name="agent_id"/>
+                                <field name="property_id"/>
+                                <field name="first_visit_date"/>
+                                <field name="last_visit_date"/>
+                            </group>
+                            <group string="Résumé">
+                                <field name="total_visits"/>
+                                <field name="completed_visits"/>
+                                <field name="conversion_rate" widget="float" string="Taux de Conversion (%)"/>
+                            </group>
+                        </group>
+                        <group string="Détails">
+                            <group>
+                                <field name="no_show_visits"/>
+                                <field name="cancelled_visits"/>
+                                <field name="converted_visits"/>
+                            </group>
+                            <group>
+                                <field name="very_interested_count"/>
+                                <field name="interested_count"/>
+                                <field name="not_interested_count"/>
+                            </group>
+                        </group>
+                        <group string="Qualité">
+                            <field name="avg_quality_score"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Visit Statistics Search View -->
+        <record id="soya_visit_statistics_search_view" model="ir.ui.view">
+            <field name="name">soya.visit.statistics.search</field>
+            <field name="model">soya.visit.statistics</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Statistiques">
+                    <field name="agent_id"/>
+                    <field name="property_id"/>
+                    <filter string="Excellente Conversion" name="excellent_conversion" domain="[('conversion_rate', '&gt;=', 50)]"/>
+                    <filter string="Bonne Conversion" name="good_conversion" domain="[('conversion_rate', '&gt;=', 30), ('conversion_rate', '&lt;', 50)]"/>
+                    <filter string="Mauvaise Conversion" name="bad_conversion" domain="[('conversion_rate', '&lt;', 30)]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                        <filter string="Bien" name="group_property" context="{'group_by': 'property_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Visit Statistics Action -->
+        <record id="soya_visit_statistics_action" model="ir.actions.act_window">
+            <field name="name">Statistiques de Conversion</field>
+            <field name="res_model">soya.visit.statistics</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="soya_visit_statistics_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Pas de statistiques disponibles
+                </p>
+                <p>
+                    Visualisez le taux de conversion des visites par agent et par bien.
+                </p>
+            </field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- Conversion Statistics Views -->
+        <!-- ========================================== -->
+
+        <!-- Conversion Statistics Tree View -->
+        <record id="soya_conversion_statistics_tree_view" model="ir.ui.view">
+            <field name="name">soya.conversion.statistics.tree</field>
+            <field name="model">soya.conversion.statistics</field>
+            <field name="arch" type="xml">
+                <tree string="Statistiques de Conversion Prospects" decoration-success="conversion_rate &gt;= 40" decoration-warning="conversion_rate &lt; 20">
+                    <field name="agent_id"/>
+                    <field name="total_prospects"/>
+                    <field name="converted_prospects"/>
+                    <field name="conversion_rate" widget="float" string="Conversion %"/>
+                    <field name="lost_prospects"/>
+                    <field name="loss_rate" widget="float" string="Perte %"/>
+                    <field name="avg_visits_per_prospect"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Conversion Statistics Form View -->
+        <record id="soya_conversion_statistics_form_view" model="ir.ui.view">
+            <field name="name">soya.conversion.statistics.form</field>
+            <field name="model">soya.conversion.statistics</field>
+            <field name="arch" type="xml">
+                <form string="Statistiques de Conversion" readonly="1">
+                    <sheet>
+                        <group>
+                            <group string="Informations Générales">
+                                <field name="agent_id"/>
+                                <field name="period_start"/>
+                                <field name="period_end"/>
+                            </group>
+                            <group string="Total Prospects">
+                                <field name="total_prospects"/>
+                                <field name="avg_visits_per_prospect"/>
+                            </group>
+                        </group>
+                        <group string="Statuts">
+                            <group>
+                                <field name="new_prospects"/>
+                                <field name="contacted_prospects"/>
+                                <field name="qualified_prospects"/>
+                            </group>
+                            <group>
+                                <field name="converted_prospects"/>
+                                <field name="lost_prospects"/>
+                            </group>
+                        </group>
+                        <group string="Taux de Conversion">
+                            <group>
+                                <field name="conversion_rate" widget="float" string="Conversion (%)"/>
+                                <field name="loss_rate" widget="float" string="Perte (%)"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Conversion Statistics Search View -->
+        <record id="soya_conversion_statistics_search_view" model="ir.ui.view">
+            <field name="name">soya.conversion.statistics.search</field>
+            <field name="model">soya.conversion.statistics</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Statistiques de Conversion">
+                    <field name="agent_id"/>
+                    <filter string="Excellente Conversion" name="excellent" domain="[('conversion_rate', '&gt;=', 40)]"/>
+                    <filter string="Bonne Conversion" name="good" domain="[('conversion_rate', '&gt;=', 20), ('conversion_rate', '&lt;', 40)]"/>
+                    <filter string="Mauvaise Conversion" name="bad" domain="[('conversion_rate', '&lt;', 20)]"/>
+                    <filter string="Taux de Perte Élevé" name="high_loss" domain="[('loss_rate', '&gt;=', 30)]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Conversion Statistics Action -->
+        <record id="soya_conversion_statistics_action" model="ir.actions.act_window">
+            <field name="name">Statistiques de Conversion Prospects</field>
+            <field name="res_model">soya.conversion.statistics</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="soya_conversion_statistics_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Pas de statistiques disponibles
+                </p>
+                <p>
+                    Visualisez vos KPIs de conversion prospects par agent.
+                </p>
+            </field>
+        </record>
+    </data>
+
+</odoo>

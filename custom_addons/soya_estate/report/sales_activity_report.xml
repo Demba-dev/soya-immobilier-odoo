@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Report Rapport d'Activité Commerciale -->
+    <report
+        id="action_report_sales_activity"
+        model="soya.sales.activity"
+        string="Rapport d'Activité Commerciale"
+        report_type="qweb-pdf"
+        name="soya_estate.report_sales_activity_document"
+        file="soya_estate.report_sales_activity_document"/>
+
+    <!-- Template QWeb -->
+    <template id="report_sales_activity_document">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h1>Rapport d'Activité Commerciale</h1>
+                    
+                    <!-- Informations du rapport -->
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <strong>Agent:</strong> <span t-field="doc.salesperson_id.name"/>
+                        </div>
+                        <div class="col-6">
+                            <strong>Date du Rapport:</strong> <span t-field="doc.activity_date" t-options='{"widget": "date"}'/>
+                        </div>
+                    </div>
+
+                    <!-- Résumé de l'activité -->
+                    <div class="row mb-4 border-top border-bottom py-3">
+                        <div class="col-3 text-center">
+                            <strong>Type</strong><br/>
+                            <span t-field="doc.activity_type"/>
+                        </div>
+                        <div class="col-3 text-center">
+                            <strong>Résultat</strong><br/>
+                            <span t-field="doc.outcome"/>
+                        </div>
+                        <div class="col-3 text-center">
+                            <strong>Durée</strong><br/>
+                            <span t-field="doc.duration"/> min
+                        </div>
+                        <div class="col-3 text-center">
+                            <strong>Statut</strong><br/>
+                            <span t-if="doc.completed" class="badge badge-success">Complétée</span>
+                            <span t-else="1" class="badge badge-warning">En Attente</span>
+                        </div>
+                    </div>
+
+                    <!-- Détails -->
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <strong>Prospect:</strong>
+                            <p t-field="doc.prospect_id.name" t-if="doc.prospect_id"/>
+                            <p t-else="">N/A</p>
+                        </div>
+                        <div class="col-6">
+                            <strong>Bien Immobilier:</strong>
+                            <p t-field="doc.property_id.name" t-if="doc.property_id"/>
+                            <p t-else="">N/A</p>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-4">
+                        <strong>Description:</strong>
+                        <p t-field="doc.description" t-if="doc.description" class="border p-2 rounded"/>
+                        <p t-else="" class="text-muted">Aucune description</p>
+                    </div>
+
+                    <!-- Suivi -->
+                    <div class="row mb-4" t-if="doc.next_action_date">
+                        <div class="col-6">
+                            <strong>Prochaine Action:</strong>
+                            <p t-field="doc.next_action_date" t-options='{"widget": "date"}'/>
+                        </div>
+                        <div class="col-6">
+                            <strong>Description:</strong>
+                            <p t-field="doc.next_action" t-if="doc.next_action" class="border p-2 rounded"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Report Rapport Récapitulatif d'Activités -->
+    <report
+        id="action_report_sales_activity_summary"
+        model="soya.sales.activity"
+        string="Récapitulatif d'Activités"
+        report_type="qweb-pdf"
+        name="soya_estate.report_sales_activity_summary"
+        file="soya_estate.report_sales_activity_summary"/>
+
+    <!-- Template Récapitulatif -->
+    <template id="report_sales_activity_summary">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h1>Récapitulatif d'Activités Commerciales</h1>
+                    
+                    <!-- Informations du rapport -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <p><strong>Période:</strong> <span t-if="docs[0].activity_date" t-field="docs[0].activity_date" t-options='{"widget": "date"}'/></p>
+                        </div>
+                    </div>
+
+                    <!-- Tableau des activités -->
+                    <table class="table table-bordered table-sm">
+                        <thead>
+                            <tr class="bg-light">
+                                <th>Date</th>
+                                <th>Agent</th>
+                                <th>Description</th>
+                                <th>Type</th>
+                                <th>Prospect</th>
+                                <th>Résultat</th>
+                                <th>Durée (min)</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs" t-as="activity">
+                                <td><span t-field="activity.activity_date" t-options='{"widget": "date"}'/></td>
+                                <td><span t-field="activity.salesperson_id.name"/></td>
+                                <td><span t-field="activity.name"/></td>
+                                <td><span t-field="activity.activity_type"/></td>
+                                <td><span t-field="activity.prospect_id.name" t-if="activity.prospect_id"/></td>
+                                <td><span t-field="activity.outcome"/></td>
+                                <td class="text-center"><span t-field="activity.duration"/></td>
+                                <td>
+                                    <span t-if="activity.completed" class="badge badge-success">Complétée</span>
+                                    <span t-else="1" class="badge badge-warning">En Attente</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Statistiques -->
+                    <div class="row mt-4 pt-4 border-top">
+                        <div class="col-6">
+                            <h4>Statistiques</h4>
+                            <ul>
+                                <li>Total d'activités: <strong t-esc="len(docs)"/></li>
+                                <li>Complétées: <strong t-esc="sum(1 for a in docs if a.completed)"/></li>
+                                <li>En attente: <strong t-esc="sum(1 for a in docs if not a.completed)"/></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <h4>Résultats</h4>
+                            <ul>
+                                <li>Positif: <strong t-esc="sum(1 for a in docs if a.outcome == 'positive')"/></li>
+                                <li>Neutre: <strong t-esc="sum(1 for a in docs if a.outcome == 'neutral')"/></li>
+                                <li>Négatif: <strong t-esc="sum(1 for a in docs if a.outcome == 'negative')"/></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

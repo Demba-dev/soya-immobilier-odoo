@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Prospect Tree View -->
+        <record id="soya_prospect_tree_view" model="ir.ui.view">
+            <field name="name">soya.prospect.tree</field>
+            <field name="model">soya.prospect</field>
+            <field name="arch" type="xml">
+                <tree string="Prospects" decoration-warning="state == 'lost'" decoration-danger="state == 'inactive'">
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="prospect_type"/>
+                    <field name="state"/>
+                    <field name="visit_count" string="Visites"/>
+                    <field name="salesperson_id"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Prospect Form View -->
+        <record id="soya_prospect_form_view" model="ir.ui.view">
+            <field name="name">soya.prospect.form</field>
+            <field name="model">soya.prospect</field>
+            <field name="arch" type="xml">
+                <form string="Prospect">
+                    <header>
+                        <button name="action_mark_contacted" string="Marquer Contacté" type="object" class="oe_highlight" invisible="state != 'new'"/>
+                        <button name="action_mark_qualified" string="Qualifier" type="object" class="oe_highlight" invisible="state != 'contacted'"/>
+                        <button name="action_mark_converted" string="Convertir en Client" type="object" class="oe_highlight" invisible="state not in ['visiting','qualified']"/>
+                        <button name="action_mark_lost" string="Marquer Perdu" type="object" invisible="state in ['converted','lost','inactive']"/>
+                        <field name="state" widget="statusbar" options="{'clickable': False}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_visits" type="object" class="oe_stat_button" icon="fa-calendar">
+                                <field name="visit_count" widget="statinfo" string="Visites"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Nom du Prospect"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Informations Principales">
+                                <field name="phone"/>
+                                <field name="email"/>
+                                <field name="prospect_type"/>
+                                <field name="salesperson_id"/>
+                                <field name="partner_id"/>
+                            </group>
+                            <group string="Budget">
+                                <field name="budget_min" widget="monetary"/>
+                                <field name="budget_max" widget="monetary"/>
+                            </group>
+                        </group>
+                        <group string="Adresse">
+                            <field name="street"/>
+                            <field name="city"/>
+                            <field name="zip_code"/>
+                            <field name="country_id"/>
+                        </group>
+                        <group string="Suivi">
+                            <field name="first_contact_date"/>
+                            <field name="last_contact_date"/>
+                        </group>
+                        <notebook>
+                            <page string="Visites" name="visits">
+                                <field name="visit_ids" nolabel="1">
+                                    <tree>
+                                        <field name="visit_date"/>
+                                        <field name="property_id"/>
+                                        <field name="state"/>
+                                        <field name="prospect_interest"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notes" name="notes">
+                                <field name="notes" nolabel="1" placeholder="Ajouter des notes sur le prospect..."/>
+                            </page>
+                            <page string="Raison de Perte" name="loss_reason" invisible="state != 'lost'">
+                                <field name="loss_reason" nolabel="1" placeholder="Expliquer pourquoi le prospect a été perdu..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Prospect Kanban View -->
+        <record id="soya_prospect_kanban_view" model="ir.ui.view">
+            <field name="name">soya.prospect.kanban</field>
+            <field name="model">soya.prospect</field>
+            <field name="arch" type="xml">
+                <kanban string="Prospects" default_group_by="state">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="visit_count"/>
+                    <field name="salesperson_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_header">
+                                        <strong class="o_kanban_record_title"><span t-esc="record.name"/></strong>
+                                    </div>
+                                    <small class="text-muted"><t t-esc="record.prospect_type"/></small>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <p><t t-esc="record.phone"/> | <t t-esc="record.email"/></p>
+                                    <p>Visites: <strong><t t-esc="record.visit_count"/></strong></p>
+                                </div>
+                                <div class="o_kanban_record_footer">
+                                    <div class="o_priority">
+                                        <span class="badge badge-info"><t t-esc="record.salesperson_id"/></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Prospect Search View -->
+        <record id="soya_prospect_search_view" model="ir.ui.view">
+            <field name="name">soya.prospect.search</field>
+            <field name="model">soya.prospect</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Prospects">
+                    <field name="name" string="Nom"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="salesperson_id"/>
+                    <filter string="Nouveaux" name="new" domain="[('state', '=', 'new')]"/>
+                    <filter string="Contactés" name="contacted" domain="[('state', '=', 'contacted')]"/>
+                    <filter string="Qualifiés" name="qualified" domain="[('state', '=', 'qualified')]"/>
+                    <filter string="Convertis" name="converted" domain="[('state', '=', 'converted')]"/>
+                    <filter string="Perdus" name="lost" domain="[('state', '=', 'lost')]"/>
+                    <filter string="Mes Prospects" name="my_prospects" domain="[('salesperson_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Acheteurs" name="buyers" domain="[('prospect_type', '=', 'buyer')]"/>
+                    <filter string="Locataires" name="renters" domain="[('prospect_type', '=', 'renter')]"/>
+                    <filter string="Investisseurs" name="investors" domain="[('prospect_type', '=', 'investor')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Type" name="group_type" context="{'group_by': 'prospect_type'}"/>
+                        <filter string="Agent" name="group_agent" context="{'group_by': 'salesperson_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Prospect Action -->
+        <record id="soya_prospect_action" model="ir.actions.act_window">
+            <field name="name">Prospects</field>
+            <field name="res_model">soya.prospect</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="search_view_id" ref="soya_prospect_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créer le premier prospect
+                </p>
+                <p>
+                    Gérez vos prospects immobiliers et suivez leur progression à travers le pipeline commercial.
+                </p>
+            </field>
+        </record>       
+    </data>
+</odoo>

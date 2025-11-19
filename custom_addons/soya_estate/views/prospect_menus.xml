@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Menu racine Prospects -->
+        <record id="menu_prospects_root" model="ir.ui.menu">
+            <field name="name">Gestion des Prospects</field>
+            <field name="parent_id" ref="menu_soya_estate_root"/>
+            <field name="sequence">30</field>
+            <field name="web_icon">fa-users</field>
+        </record>
+
+        <!-- Sous-menu Prospects -->
+        <record id="menu_prospects" model="ir.ui.menu">
+            <field name="name">Prospects</field>
+            <field name="parent_id" ref="menu_prospects_root"/>
+            <field name="action" ref="soya_prospect_action"/>
+            <field name="sequence">10</field>
+            <field name="web_icon">fa-user-plus</field>
+        </record>
+        <!-- Sous-menu Sales Activities -->
+        <record id="menu_sales_activities" model="ir.ui.menu">
+            <field name="name">Activités commerciales</field>
+            <field name="parent_id" ref="menu_prospects_root"/>
+            <field name="action" ref="soya_sales_activity_action"/>
+            <field name="sequence">20</field>
+            <field name="web_icon">fa-calendar-check-o</field>
+        </record>
+        <!-- Sous-menu Statistiques de Conversion -->
+        <record id="menu_visit_statistics" model="ir.ui.menu">
+            <field name="name">Statistiques de Conversion</field>
+            <field name="parent_id" ref="menu_prospects_root"/>
+            <field name="action" ref="soya_visit_statistics_action"/>
+            <field name="sequence">30</field>
+            <field name="web_icon">fa-bar-chart</field>
+        </record>
+        <!-- Sous-menu Statistiques de Conversion Prospects -->
+        <record id="menu_conversion_statistics" model="ir.ui.menu">
+            <field name="name">Statistiques de Conversion Prospects</field>
+            <field name="parent_id" ref="menu_prospects_root"/>
+            <field name="action" ref="soya_conversion_statistics_action"/>
+            <field name="sequence">40</field>
+            <field name="web_icon">fa-list-alt</field>
+        </record>
+        <!-- Sous-menu visit -->
+        <record id="menu_soya_visit" model="ir.ui.menu">
+            <field name="name">Calendrier des Visites</field>
+            <field name="parent_id" ref="menu_prospects_root"/>
+            <field name="action" ref="soya_visit_action"/>
+            <field name="sequence">50</field>
+            <field name="web_icon">fa-map-marker</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -132,16 +132,20 @@
                     <field name="property_count"/>
                     <field name="category"/>
                     <field name="active"/>
+                    <field name="code"/>
+                    <field name="sales_commission_rate"/>
+                    <field name="rental_commission_rate"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_global_click o_kanban_card {{active ? 'o_color_1' : 'o_color_5'}}">
+                            <div t-attf-class="oe_kanban_global_click o_kanban_card {{record.active.value ? 'o_color_1' : 'o_color_5'}}">
+                                
                                 <!-- En-tête de la carte -->
-                                <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_headings">
                                     <div class="o_kanban_card_header_title">
                                         <strong>
                                             <field name="name"/>
                                         </strong>
-                                        <span class="badge badge-pill" t-attf-class="o_kanban_card_badge {{property_count > 0 ? 'badge-success' : 'badge-secondary'}}">
+                                        <span t-attf-class="o_kanban_card_badge {{record.property_count.value > 0 ? 'badge-success' : 'badge-secondary'}}">
                                             <field name="property_count"/>
                                         </span>
                                     </div>
@@ -151,43 +155,44 @@
                                         </small>
                                     </div>
                                 </div>
-                                
+
                                 <!-- Contenu de la carte -->
                                 <div class="o_kanban_card_content">
                                     <div>
                                         <i class="fa fa-tag mr-2" title="Catégorie"></i>
-                                        <span t-esc="category"/>
+                                        <field name="category"/>
                                     </div>
-                                    <div t-if="sales_commission_rate &gt; 0">
+                                    <div t-if="record.sales_commission_rate.value &gt; 0">
                                         <i class="fa fa-percent mr-2"/>
                                         <span>Vente: </span>
-                                        <span t-esc="sales_commission_rate"/>%
+                                        <field name="sales_commission_rate"/>%
                                     </div>
-                                    <div t-if="rental_commission_rate &gt; 0">
+                                    <div t-if="record.rental_commission_rate.value &gt; 0">
                                         <i class="fa fa-percent mr-2"/>
                                         <span>Location: </span>
-                                        <span t-esc="rental_commission_rate"/>%
+                                        <field name="rental_commission_rate"/>%
                                     </div>
                                 </div>
-                                
+
                                 <!-- Pied de carte -->
                                 <div class="o_kanban_card_footer">
                                     <div class="o_kanban_card_footer_left">
-                                        <span t-if="active" class="badge badge-success">Actif</span>
-                                        <span t-if="!active" class="badge badge-secondary">Inactif</span>
+                                        <span t-if="record.active.value" class="badge badge-success">Actif</span>
+                                        <span t-if="!record.active.value" class="badge badge-secondary">Inactif</span>
                                     </div>
                                     <div class="o_kanban_card_footer_right">
-                                        <button name="action_view_properties" type="object" 
-                                                class="btn btn-sm btn-outline-primary" 
-                                                invisible="[('property_count','=',0)]">
+                                        <button name="action_view_properties" type="object" class="btn btn-sm btn-outline-primary"
+                                                t-if="record.property_count.value &gt; 0">
                                             Voir
                                         </button>
                                     </div>
                                 </div>
+
                             </div>
                         </t>
                     </templates>
                 </kanban>
+
             </field>
         </record>
 

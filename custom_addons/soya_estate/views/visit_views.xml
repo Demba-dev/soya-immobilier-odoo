@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Visit Tree View -->
+        <record id="soya_visit_tree_view" model="ir.ui.view">
+            <field name="name">soya.visit.tree</field>
+            <field name="model">soya.visit</field>
+            <field name="arch" type="xml">
+                <tree string="Visites" decoration-success="state == 'completed'" decoration-warning="state == 'planned'" decoration-danger="state == 'cancelled'">
+                    <field name="visit_date"/>
+                    <field name="prospect_id"/>
+                    <field name="property_id"/>
+                    <field name="salesperson_id"/>
+                    <field name="state"/>
+                    <field name="prospect_interest"/>
+                    <field name="converted_to_offer"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Visit Form View -->
+        <record id="soya_visit_form_view" model="ir.ui.view">
+            <field name="name">soya.visit.form</field>
+            <field name="model">soya.visit</field>
+            <field name="arch" type="xml">
+                <form string="Visite">
+                    <header>
+                        <button name="action_mark_in_progress" string="Démarrer la Visite" type="object" class="oe_highlight" invisible="state != 'planned'"/>
+                        <button name="action_mark_completed" string="Terminer la Visite" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                        <button name="action_create_offer" string="Créer une Offre" type="object" invisible="state != 'completed'"/>
+                        <button name="action_mark_no_show" string="Non-Présentation" type="object" invisible="state != 'planned'"/>
+                        <button name="action_cancel_visit" string="Annuler" type="object" invisible="state not in ['planned','in_progress']"/>
+                        <field name="state" widget="statusbar" options="{'clickable': False}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Informations Principales">
+                                <field name="visit_date" widget="datetime"/>
+                                <field name="visit_date_end" readonly="1" invisible="state != 'completed'"/>
+                                <field name="prospect_id" readonly="id"/>
+                                <field name="property_id" readonly="id"/>
+                                <field name="salesperson_id"/>
+                            </group>
+                            <group string="Liens">
+                                <field name="offer_id"/>
+                                <field name="created_offer_id" invisible="not converted_to_offer"/>
+                            </group>
+                        </group>
+                        <group string="Suivi et Retour">
+                            <group>
+                                <field name="prospect_interest"/>
+                                <field name="visit_duration" invisible="state != 'completed'"/>
+                                <field name="quality_score"/>
+                            </group>
+                            <group>
+                                <field name="follow_up_date"/>
+                                <field name="follow_up_done" readonly="1"/>
+                                <field name="converted_to_offer" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Commentaires" name="feedback">
+                                <field name="feedback" nolabel="1" placeholder="Ajouter vos commentaires sur la visite..."/>
+                            </page>
+                            <page string="Problèmes Identifiés" name="issues">
+                                <field name="issues_found" nolabel="1" placeholder="Lister les problèmes ou points à améliorer..."/>
+                            </page>
+                            <page string="Suivi" name="followup">
+                                <group>
+                                    <field name="next_action_date"/>
+                                    <field name="follow_up_done"/>
+                                </group>
+                                <field name="next_action" nolabel="1" placeholder="Description de la prochaine action..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Visit Calendar View -->
+        <record id="soya_visit_calendar_view" model="ir.ui.view">
+            <field name="name">soya.visit.calendar</field>
+            <field name="model">soya.visit</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendrier des Visites" date_start="visit_date" date_stop="visit_date_end" color="salesperson_id">
+                    <field name="prospect_id"/>
+                    <field name="property_id"/>
+                    <field name="state"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!-- Visit Kanban View -->
+        <record id="soya_visit_kanban_view" model="ir.ui.view">
+            <field name="name">soya.visit.kanban</field>
+            <field name="model">soya.visit</field>
+            <field name="arch" type="xml">
+                <kanban string="Visites" default_group_by="state">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="visit_date"/>
+                    <field name="prospect_id"/>
+                    <field name="property_id"/>
+                    <field name="state"/>
+                    <field name="prospect_interest"/>
+                    <field name="converted_to_offer"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><span t-esc="record.prospect_id"/></strong>
+                                    </div>
+                                    <small class="text-muted"><t t-esc="record.property_id"/></small>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <p><i class="fa fa-calendar"/> <t t-esc="record.visit_date"/></p>
+                                    <p t-if="record.prospect_interest">Intérêt: <strong><t t-esc="record.prospect_interest"/></strong></p>
+                                </div>
+                                <div class="o_kanban_record_footer">
+                                    <div class="o_kanban_status">
+                                        <span t-if="record.converted_to_offer" class="badge badge-success">✓ Offre</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Visit Search View -->
+        <record id="soya_visit_search_view" model="ir.ui.view">
+            <field name="name">soya.visit.search</field>
+            <field name="model">soya.visit</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Visites">
+                    <field name="prospect_id"/>
+                    <field name="property_id"/>
+                    <field name="salesperson_id"/>
+                    <field name="visit_date"/>
+                    <filter string="Planifiées" name="planned" domain="[('state', '=', 'planned')]"/>
+                    <filter string="En Cours" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                    <filter string="Complétées" name="completed" domain="[('state', '=', 'completed')]"/>
+                    <filter string="Non-Présentations" name="no_show" domain="[('state', '=', 'no_show')]"/>
+                    <filter string="Converties en Offre" name="converted" domain="[('converted_to_offer', '=', True)]"/>
+                    <filter string="Très Intéressés" name="very_interested" domain="[('prospect_interest', '=', 'very_interested')]"/>
+                    <filter string="Pas Intéressés" name="not_interested" domain="[('prospect_interest', '=', 'not_interested')]"/>
+                    <filter string="Mes Visites" name="my_visits" domain="[('salesperson_id', '=', uid)]"/>
+                    <filter string="Aujourd'hui" name="today" domain="[('visit_date', '&gt;=', context_today()), ('visit_date', '&lt;', context_today() + 1)]"/>
+                    <separator/>
+                    <filter string="À Faire le Suivi" name="followup_pending" domain="[('follow_up_done', '=', False), ('state', '=', 'completed')]"/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Statut" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Prospect" name="group_prospect" context="{'group_by': 'prospect_id'}"/>
+                        <filter string="Bien" name="group_property" context="{'group_by': 'property_id'}"/>
+                        <filter string="Agent" name="group_agent" context="{'group_by': 'salesperson_id'}"/>
+                        <filter string="Intérêt" name="group_interest" context="{'group_by': 'prospect_interest'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'visit_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Visit Action -->
+        <record id="soya_visit_action" model="ir.actions.act_window">
+            <field name="name">Visites</field>
+            <field name="res_model">soya.visit</field>
+            <field name="view_mode">calendar,kanban,tree,form</field>
+            <field name="search_view_id" ref="soya_visit_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Pas de visite prévue
+                </p>
+                <p>
+                    Gérez vos visites immobilières et suivez la conversion en offres.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

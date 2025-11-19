@@ -86,7 +86,94 @@
             <field name="domain_force">[('contract_id.property_id.salesperson_id', '=', user.id)]</field>
             <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
         </record>
-         
+
+        <!-- === RÈGLES POUR LES PROSPECTS === -->
+        
+        <!-- Manager: Accès complet à tous les prospects -->
+        <record id="soya_prospect_manager_rule" model="ir.rule">
+            <field name="name">SOYA Manager: Tous les prospects</field>
+            <field name="model_id" ref="model_soya_prospect"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_manager'))]"/>
+        </record>
+
+        <!-- Agent: Ne voit que ses propres prospects -->
+        <record id="soya_prospect_agent_rule" model="ir.rule">
+            <field name="name">SOYA Agent: Ses propres prospects</field>
+            <field name="model_id" ref="model_soya_prospect"/>
+            <field name="domain_force">[('salesperson_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
+        </record>
+
+        <!-- === RÈGLES POUR LES VISITES === -->
+        
+        <!-- Manager: Accès complet à toutes les visites -->
+        <record id="soya_visit_manager_rule" model="ir.rule">
+            <field name="name">SOYA Manager: Toutes les visites</field>
+            <field name="model_id" ref="model_soya_visit"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_manager'))]"/>
+        </record>
+
+        <!-- Agent: Ne voit que ses propres visites -->
+        <record id="soya_visit_agent_rule" model="ir.rule">
+            <field name="name">SOYA Agent: Ses propres visites</field>
+            <field name="model_id" ref="model_soya_visit"/>
+            <field name="domain_force">[('salesperson_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
+        </record>
+
+        <!-- === RÈGLES POUR LES ACTIVITÉS COMMERCIALES === -->
+        
+        <!-- Manager: Accès complet à toutes les activités -->
+        <record id="soya_sales_activity_manager_rule" model="ir.rule">
+            <field name="name">SOYA Manager: Toutes les activités</field>
+            <field name="model_id" ref="model_soya_sales_activity"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_manager'))]"/>
+        </record>
+
+        <!-- Agent: Ne voit que ses propres activités -->
+        <record id="soya_sales_activity_agent_rule" model="ir.rule">
+            <field name="name">SOYA Agent: Ses propres activités</field>
+            <field name="model_id" ref="model_soya_sales_activity"/>
+            <field name="domain_force">[('salesperson_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
+        </record>
+
+        <!-- === RÈGLES POUR LES STATISTIQUES === -->
+        
+        <!-- Manager: Accès complet à toutes les statistiques de visite -->
+        <record id="soya_visit_statistics_manager_rule" model="ir.rule">
+            <field name="name">SOYA Manager: Toutes les statistiques</field>
+            <field name="model_id" ref="model_soya_visit_statistics"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_manager'))]"/>
+        </record>
+
+        <!-- Agent: Ne voit que ses statistiques -->
+        <record id="soya_visit_statistics_agent_rule" model="ir.rule">
+            <field name="name">SOYA Agent: Ses statistiques</field>
+            <field name="model_id" ref="model_soya_visit_statistics"/>
+            <field name="domain_force">[('agent_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
+        </record>
+
+        <!-- Manager: Accès complet à toutes les statistiques de conversion -->
+        <record id="soya_conversion_statistics_manager_rule" model="ir.rule">
+            <field name="name">SOYA Manager: Toutes les stats de conversion</field>
+            <field name="model_id" ref="model_soya_conversion_statistics"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_manager'))]"/>
+        </record>
+
+        <!-- Agent: Ne voit que ses stats de conversion -->
+        <record id="soya_conversion_statistics_agent_rule" model="ir.rule">
+            <field name="name">SOYA Agent: Ses stats de conversion</field>
+            <field name="model_id" ref="model_soya_conversion_statistics"/>
+            <field name="domain_force">[('agent_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_soya_estate_agent'))]"/>
+        </record>
 
     </data>
 </odoo>
