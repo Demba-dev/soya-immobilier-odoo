@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Report for Performance KPI -->
+        <record id="action_report_soya_performance_kpi" model="ir.actions.report">
+            <field name="name">Rapport KPI Performance</field>
+            <field name="model">soya.performance.kpi</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">soya_estate.report_performance_kpi</field>
+            <field name="report_file">soya_estate.report_performance_kpi</field>
+            <field name="print_report_name">'Rapport KPI - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_soya_performance_kpi"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Template for KPI Report -->
+        <template id="report_performance_kpi">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2>Rapport KPI Performance</h2>
+                                    <p>
+                                        <strong>Période:</strong> <t t-esc="doc.period_start.strftime('%d/%m/%Y')"/> à <t t-esc="doc.period_end.strftime('%d/%m/%Y')"/>
+                                    </p>
+                                    <p t-if="doc.agent_id">
+                                        <strong>Agent:</strong> <t t-esc="doc.agent_id.name"/>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Résumé KPIs</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Indicateur</th>
+                                                <th>Valeur</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Total Offres</strong></td>
+                                                <td><t t-esc="doc.total_offers"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Offres Acceptées</strong></td>
+                                                <td><t t-esc="doc.offers_accepted"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Taux Acceptation (%)</strong></td>
+                                                <td><t t-esc="'%.2f' % doc.acceptance_rate"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Revenu Total</strong></td>
+                                                <td><t t-esc="'%.2f €' % doc.total_revenue"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Valeur Moyenne</strong></td>
+                                                <td><t t-esc="'%.2f €' % doc.avg_transaction_value"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Indicateur</th>
+                                                <th>Valeur</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Total Prospects</strong></td>
+                                                <td><t t-esc="doc.total_prospects"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Prospects Qualifiés</strong></td>
+                                                <td><t t-esc="doc.qualified_prospects"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Taux Conversion (%)</strong></td>
+                                                <td><t t-esc="'%.2f' % doc.conversion_rate"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total Visites</strong></td>
+                                                <td><t t-esc="doc.total_visits"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Visites Complétées</strong></td>
+                                                <td><t t-esc="doc.completed_visits"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>KPIs Portfolio</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Indicateur</th>
+                                                <th>Valeur</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Biens Disponibles</strong></td>
+                                                <td><t t-esc="doc.properties_available"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Biens Loués</strong></td>
+                                                <td><t t-esc="doc.properties_rented"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Taux Occupation (%)</strong></td>
+                                                <td><t t-esc="'%.2f' % doc.portfolio_occupancy_rate"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Qualité Visite Moyenne</strong></td>
+                                                <td><t t-esc="'%.2f' % doc.avg_visit_quality"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

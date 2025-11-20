@@ -52,6 +52,10 @@
         'views/visit_views.xml',
         'views/sales_activity_views.xml',
         'views/visit_statistics_views.xml',
+        'views/analytics_kpi_views.xml',
+        'views/analytics_profitability_views.xml',
+        'views/analytics_market_views.xml',
+        'views/analytics_menus.xml',
         'views/contract_views.xml',
         'views/contract_menus.xml',
         'views/dashboard_views.xml',
@@ -64,6 +68,9 @@
         'views/prospect_menus.xml',
         'report/financial_invoice_report.xml',
         'report/sales_activity_report.xml',
+        'report/performance_kpi_report.xml',
+        'report/profitability_report.xml',
+        'report/market_analytics_report.xml',
         
         # ========================
         # 4. VUES WEB ET WIZARDS

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Market Analytics Tree View -->
+        <record id="soya_market_analytics_tree_view" model="ir.ui.view">
+            <field name="name">soya.market.analytics.tree</field>
+            <field name="model">soya.market.analytics</field>
+            <field name="arch" type="xml">
+                <tree string="Analytics Marché" decoration-success="opportunity_score >= 70" decoration-warning="opportunity_score >= 50 and opportunity_score &lt; 70" decoration-danger="opportunity_score &lt; 50">
+                    <field name="analysis_date"/>
+                    <field name="property_type_id"/>
+                    <field name="location"/>
+                    <field name="avg_property_price"/>
+                    <field name="price_trend" widget="float"/>
+                    <field name="recommendation"/>
+                    <field name="risk_level"/>
+                    <field name="opportunity_score" widget="float"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Market Analytics Form View -->
+        <record id="soya_market_analytics_form_view" model="ir.ui.view">
+            <field name="name">soya.market.analytics.form</field>
+            <field name="model">soya.market.analytics</field>
+            <field name="arch" type="xml">
+                <form string="Analyse Marché" readonly="1">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Analyse">
+                                <field name="analysis_date"/>
+                                <field name="property_type_id"/>
+                                <field name="location"/>
+                                <field name="historical_period_months"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Données Marché" colspan="4"/>
+                        
+                        <group string="Prix" colspan="4">
+                            <group>
+                                <field name="avg_property_price" widget="float"/>
+                                <field name="price_trend" widget="float"/>
+                                <field name="price_volatility" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Activité Marché" colspan="4">
+                            <group>
+                                <field name="listings_count"/>
+                                <field name="avg_days_on_market" widget="float"/>
+                                <field name="absorption_rate" widget="float"/>
+                                <field name="sale_velocity" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Demande &amp; Offre" colspan="4">
+                            <group>
+                                <field name="demand_level"/>
+                                <field name="supply_level"/>
+                                <field name="market_balance" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Prédictions (12 mois)" colspan="4"/>
+                        
+                        <group string="Prix Prédits" colspan="4">
+                            <group>
+                                <field name="predicted_price_3m" widget="float"/>
+                                <field name="predicted_price_6m" widget="float"/>
+                                <field name="predicted_price_12m" widget="float"/>
+                                <field name="price_prediction_confidence" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Recommandations" colspan="4"/>
+                        
+                        <group string="Analyse" colspan="4">
+                            <group>
+                                <field name="recommendation"/>
+                                <field name="risk_level"/>
+                                <field name="opportunity_score" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Détails" colspan="4">
+                            <field name="recommendation_reason" nolabel="1" colspan="4"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Market Analytics Search View -->
+        <record id="soya_market_analytics_search_view" model="ir.ui.view">
+            <field name="name">soya.market.analytics.search</field>
+            <field name="model">soya.market.analytics</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Analytics">
+                    <field name="property_type_id"/>
+                    <field name="location"/>
+                    <field name="analysis_date"/>
+                    <filter string="Achat Recommandé" name="buy_recommendation" domain="[('recommendation', 'in', ['buy', 'strong_buy'])]"/>
+                    <filter string="Vendre" name="sell_recommendation" domain="[('recommendation', 'in', ['sell', 'strong_sell'])]"/>
+                    <filter string="Risque Faible" name="low_risk" domain="[('risk_level', 'in', ['low', 'very_low'])]"/>
+                    <filter string="Forte Demande" name="high_demand" domain="[('demand_level', 'in', ['high', 'very_high'])]"/>
+                    <filter string="Offre Faible" name="low_supply" domain="[('supply_level', 'in', ['low', 'very_low'])]"/>
+                    <separator/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Type Bien" name="group_type" context="{'group_by': 'property_type_id'}"/>
+                        <filter string="Localisation" name="group_location" context="{'group_by': 'location'}"/>
+                        <filter string="Recommandation" name="group_recommendation" context="{'group_by': 'recommendation'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Market Analytics Action -->
+        <record id="soya_market_analytics_action" model="ir.actions.act_window">
+            <field name="name">Analytics Marché</field>
+            <field name="res_model">soya.market.analytics</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="soya_market_analytics_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune analyse disponible
+                </p>
+                <p>
+                    Visualisez les analyses prédictives du marché avec recommandations et scores de risque.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Menu racine Analytics -->
+        <record id="menu_analytics_root" model="ir.ui.menu">
+            <field name="name">📊 Rapports &amp; Analytics</field>
+            <field name="parent_id" ref="menu_soya_estate_root"/>
+            <field name="sequence">40</field>
+            <field name="web_icon">fa-bar-chart</field>
+        </record>
+
+        <!-- Sous-menu KPIs Performance -->
+        <record id="menu_performance_kpi" model="ir.ui.menu">
+            <field name="name">KPIs Performance</field>
+            <field name="parent_id" ref="menu_analytics_root"/>
+            <field name="action" ref="soya_performance_kpi_action"/>
+            <field name="sequence">10</field>
+            <field name="web_icon">fa-tachometer</field>
+        </record>
+
+        <!-- Sous-menu Rentabilité -->
+        <record id="menu_profitability" model="ir.ui.menu">
+            <field name="name">Analyse Rentabilité</field>
+            <field name="parent_id" ref="menu_analytics_root"/>
+            <field name="action" ref="soya_property_profitability_action"/>
+            <field name="sequence">20</field>
+            <field name="web_icon">fa-money</field>
+        </record>
+
+        <!-- Sous-menu Market Analytics -->
+        <record id="menu_market_analytics" model="ir.ui.menu">
+            <field name="name">Analytics Marché</field>
+            <field name="parent_id" ref="menu_analytics_root"/>
+            <field name="action" ref="soya_market_analytics_action"/>
+            <field name="sequence">30</field>
+            <field name="web_icon">fa-line-chart</field>
+        </record>
+    </data>
+</odoo>

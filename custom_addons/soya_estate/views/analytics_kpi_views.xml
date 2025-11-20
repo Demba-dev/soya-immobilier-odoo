@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Performance KPI Tree View -->
+        <record id="soya_performance_kpi_tree_view" model="ir.ui.view">
+            <field name="name">soya.performance.kpi.tree</field>
+            <field name="model">soya.performance.kpi</field>
+            <field name="arch" type="xml">
+                <tree string="KPIs Performance" decoration-success="conversion_rate >= 30" decoration-warning="conversion_rate >= 20 and conversion_rate &lt; 30" decoration-danger="conversion_rate &lt; 20">
+                    <field name="period_start"/>
+                    <field name="period_end"/>
+                    <field name="agent_id"/>
+                    <field name="total_offers"/>
+                    <field name="acceptance_rate"/>
+                    <field name="conversion_rate"/>
+                    <field name="total_revenue"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Performance KPI Form View -->
+        <record id="soya_performance_kpi_form_view" model="ir.ui.view">
+            <field name="name">soya.performance.kpi.form</field>
+            <field name="model">soya.performance.kpi</field>
+            <field name="arch" type="xml">
+                <form string="KPI Performance">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Période">
+                                <field name="period_start"/>
+                                <field name="period_end"/>
+                                <field name="agent_id"/>
+                            </group>
+                        </group>
+                        <group string="KPIs Ventes" colspan="4">
+                            <group>
+                                <field name="total_offers" readonly="1"/>
+                                <field name="offers_accepted" readonly="1"/>
+                                <field name="acceptance_rate" widget="float" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="total_revenue" widget="float" readonly="1"/>
+                                <field name="avg_transaction_value" widget="float" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="KPIs Prospects" colspan="4">
+                            <group>
+                                <field name="total_prospects" readonly="1"/>
+                                <field name="qualified_prospects" readonly="1"/>
+                                <field name="conversion_rate" widget="float" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="KPIs Visites" colspan="4">
+                            <group>
+                                <field name="total_visits" readonly="1"/>
+                                <field name="completed_visits" readonly="1"/>
+                                <field name="avg_visit_quality" widget="float" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="KPIs Portfolio" colspan="4">
+                            <group>
+                                <field name="properties_available" readonly="1"/>
+                                <field name="properties_rented" readonly="1"/>
+                                <field name="portfolio_occupancy_rate" widget="float" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Performance KPI Search View -->
+        <record id="soya_performance_kpi_search_view" model="ir.ui.view">
+            <field name="name">soya.performance.kpi.search</field>
+            <field name="model">soya.performance.kpi</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher KPIs">
+                    <field name="agent_id"/>
+                    <field name="period_start"/>
+                    <field name="period_end"/>
+                    <filter string="Global" name="global_kpi" domain="[('agent_id', '=', False)]"/>
+                    <filter string="Par Agent" name="by_agent" domain="[('agent_id', '!=', False)]"/>
+
+                    <separator/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Agent" name="group_agent" context="{'group_by': 'agent_id'}"/>
+                        <filter string="Période" name="group_period" context="{'group_by': 'period_start'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Performance KPI Action -->
+        <record id="soya_performance_kpi_action" model="ir.actions.act_window">
+            <field name="name">KPIs Performance</field>
+            <field name="res_model">soya.performance.kpi</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="soya_performance_kpi_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucun KPI enregistré
+                </p>
+                <p>
+                    Visualisez les indicateurs clés de performance par période et par agent.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

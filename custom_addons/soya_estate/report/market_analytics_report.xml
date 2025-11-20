@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Report for Market Analytics -->
+        <record id="action_report_soya_market_analytics" model="ir.actions.report">
+            <field name="name">Rapport Analytics Marché</field>
+            <field name="model">soya.market.analytics</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">soya_estate.report_market_analytics</field>
+            <field name="report_file">soya_estate.report_market_analytics</field>
+            <field name="print_report_name">'Analytics Marché - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_soya_market_analytics"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Template for Market Analytics Report -->
+        <template id="report_market_analytics">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2>Analyse du Marché Immobilier</h2>
+                                    <p>
+                                        <strong>Date d'Analyse:</strong> <t t-esc="doc.analysis_date.strftime('%d/%m/%Y')"/>
+                                    </p>
+                                    <t t-if="doc.property_type_id">
+                                        <p>
+                                            <strong>Type de Bien:</strong> <t t-esc="doc.property_type_id.name"/>
+                                        </p>
+                                    </t>
+                                    <t t-if="doc.location">
+                                        <p>
+                                            <strong>Localisation:</strong> <t t-esc="doc.location"/>
+                                        </p>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Données de Marché</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Tendance Prix</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Prix Moyen</td>
+                                                <td><t t-esc="'%.2f €' % doc.avg_property_price"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Tendance Prix (%)</td>
+                                                <td>
+                                                    <t t-if="doc.price_trend >= 0">
+                                                        <span class="badge badge-success"><t t-esc="'%.2f' % doc.price_trend"/>%</span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="badge badge-danger"><t t-esc="'%.2f' % doc.price_trend"/>%</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Volatilité Prix</td>
+                                                <td><t t-esc="'%.2f €' % doc.price_volatility"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Activité Marché</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Annonces Actives</td>
+                                                <td><t t-esc="doc.listings_count"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jours sur Marché Moyen</td>
+                                                <td><t t-esc="'%.1f' % doc.avg_days_on_market"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Taux d'Absorption (%)</td>
+                                                <td><t t-esc="'%.2f' % doc.absorption_rate"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Vélocité Vente (jours)</td>
+                                                <td><t t-esc="'%.1f' % doc.sale_velocity"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Équilibre Marché</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Indicateur</th>
+                                                <th>Niveau</th>
+                                                <th>Interpretation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Demande</td>
+                                                <td>
+                                                    <t t-if="doc.demand_level == 'very_high'">
+                                                        <span class="badge badge-danger">Très Forte</span>
+                                                    </t>
+                                                    <t t-elif="doc.demand_level == 'high'">
+                                                        <span class="badge badge-warning">Forte</span>
+                                                    </t>
+                                                    <t t-elif="doc.demand_level == 'moderate'">
+                                                        <span class="badge badge-info">Modérée</span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="badge badge-secondary">Faible</span>
+                                                    </t>
+                                                </td>
+                                                <td>Nombre de prospects intéressés</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Offre</td>
+                                                <td>
+                                                    <t t-if="doc.supply_level == 'very_high'">
+                                                        <span class="badge badge-danger">Très Important</span>
+                                                    </t>
+                                                    <t t-elif="doc.supply_level == 'high'">
+                                                        <span class="badge badge-warning">Important</span>
+                                                    </t>
+                                                    <t t-elif="doc.supply_level == 'moderate'">
+                                                        <span class="badge badge-info">Modéré</span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="badge badge-secondary">Faible</span>
+                                                    </t>
+                                                </td>
+                                                <td>Nombre de propriétés disponibles</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Équilibre (Demande/Offre)</td>
+                                                <td><t t-esc="'%.2f' % doc.market_balance"/></td>
+                                                <td>&gt;1 = Marché favorable aux vendeurs</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Prédictions - 12 Mois</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Période</th>
+                                                <th>Prix Prédit</th>
+                                                <th>Variation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>3 Mois</td>
+                                                <td><t t-esc="'%.2f €' % doc.predicted_price_3m"/></td>
+                                                <td><t t-esc="'%.2f' % ((doc.predicted_price_3m - doc.avg_property_price) / doc.avg_property_price * 100 if doc.avg_property_price else 0)"/>%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6 Mois</td>
+                                                <td><t t-esc="'%.2f €' % doc.predicted_price_6m"/></td>
+                                                <td><t t-esc="'%.2f' % ((doc.predicted_price_6m - doc.avg_property_price) / doc.avg_property_price * 100 if doc.avg_property_price else 0)"/>%</td>
+                                            </tr>
+                                            <tr>
+                                                <td>12 Mois</td>
+                                                <td><t t-esc="'%.2f €' % doc.predicted_price_12m"/></td>
+                                                <td><t t-esc="'%.2f' % ((doc.predicted_price_12m - doc.avg_property_price) / doc.avg_property_price * 100 if doc.avg_property_price else 0)"/>%</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="mt-2">
+                                        <strong>Confiance Prédiction:</strong> <t t-esc="'%.2f' % doc.price_prediction_confidence"/>%
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Recommandation</h3>
+                                    <div class="alert" t-attf-class="alert-{{ 'success' if doc.recommendation == 'strong_buy' else 'warning' if doc.recommendation == 'buy' else 'info' if doc.recommendation == 'hold' else 'danger' }}">
+                                        <h4>
+                                            <t t-if="doc.recommendation == 'strong_buy'">
+                                                ✓ Achat Recommandé (Très Favorable)
+                                            </t>
+                                            <t t-elif="doc.recommendation == 'buy'">
+                                                ↑ Achat Possible (Favorable)
+                                            </t>
+                                            <t t-elif="doc.recommendation == 'hold'">
+                                                → Maintenir (Neutre)
+                                            </t>
+                                            <t t-elif="doc.recommendation == 'sell'">
+                                                ↓ Vendre (Défavorable)
+                                            </t>
+                                            <t t-else="">
+                                                ✗ Vendre Rapidement (Très Défavorable)
+                                            </t>
+                                        </h4>
+                                        <p><t t-esc="doc.recommendation_reason"/></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Évaluation Risque</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Critère</th>
+                                                <th>Valeur</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Niveau Risque</strong></td>
+                                                <td>
+                                                    <t t-if="doc.risk_level == 'very_high'">
+                                                        <span class="badge badge-danger">Très Élevé</span>
+                                                    </t>
+                                                    <t t-elif="doc.risk_level == 'high'">
+                                                        <span class="badge badge-warning">Élevé</span>
+                                                    </t>
+                                                    <t t-elif="doc.risk_level == 'moderate'">
+                                                        <span class="badge badge-info">Modéré</span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span class="badge badge-success">Faible</span>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Score Opportunité</strong></td>
+                                                <td><t t-esc="'%.2f' % doc.opportunity_score"/>/100</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

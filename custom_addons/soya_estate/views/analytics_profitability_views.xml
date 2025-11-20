@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Property Profitability Tree View -->
+        <record id="soya_property_profitability_tree_view" model="ir.ui.view">
+            <field name="name">soya.property.profitability.tree</field>
+            <field name="model">soya.property.profitability</field>
+            <field name="arch" type="xml">
+                <tree string="Rentabilité Propriétés" decoration-success="roi >= 10" decoration-warning="roi >= 5 and roi &lt; 10" decoration-danger="roi &lt; 5">
+                    <field name="property_id"/>
+                    <field name="total_revenue"/>
+                    <field name="total_expenses"/>
+                    <field name="net_profit"/>
+                    <field name="roi" widget="float"/>
+                    <field name="annualized_roi" widget="float"/>
+                    <field name="occupancy_months"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Property Profitability Form View -->
+        <record id="soya_property_profitability_form_view" model="ir.ui.view">
+            <field name="name">soya.property.profitability.form</field>
+            <field name="model">soya.property.profitability</field>
+            <field name="arch" type="xml">
+                <form string="Analyse Rentabilité" readonly="1">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Propriété">
+                                <field name="property_id"/>
+                                <field name="property_value" widget="float"/>
+                            </group>
+                            <group string="Acquisition">
+                                <field name="property_acquisition_price" widget="float"/>
+                                <field name="appreciation" widget="float"/>
+                                <field name="appreciation_percentage" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <separator string="Analyse Financière" colspan="4"/>
+                        
+                        <group string="Revenus" colspan="4">
+                            <group>
+                                <field name="total_rental_income" widget="float"/>
+                                <field name="avg_monthly_rent" widget="float"/>
+                                <field name="total_sale_commissions" widget="float"/>
+                            </group>
+                            <group>
+                                <field name="total_revenue" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Charges" colspan="4">
+                            <group>
+                                <field name="maintenance_costs" widget="float"/>
+                                <field name="tax_expenses" widget="float"/>
+                                <field name="insurance_costs" widget="float"/>
+                            </group>
+                            <group>
+                                <field name="other_expenses" widget="float"/>
+                                <field name="total_expenses" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Rentabilité" colspan="4">
+                            <group>
+                                <field name="gross_profit" widget="float"/>
+                                <field name="net_profit" widget="float"/>
+                                <field name="profit_margin" widget="float"/>
+                            </group>
+                            <group>
+                                <field name="roi" widget="float"/>
+                                <field name="annualized_roi" widget="float"/>
+                            </group>
+                        </group>
+                        
+                        <group string="Occupation" colspan="4">
+                            <group>
+                                <field name="occupancy_months"/>
+                                <field name="vacancy_rate" widget="float"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Property Profitability Search View -->
+        <record id="soya_property_profitability_search_view" model="ir.ui.view">
+            <field name="name">soya.property.profitability.search</field>
+            <field name="model">soya.property.profitability</field>
+            <field name="arch" type="xml">
+                <search string="Rechercher Rentabilité">
+                    <field name="property_id"/>
+                    <filter string="ROI Positif" name="positive_roi" domain="[('roi', '>', 0)]"/>
+                    <filter string="ROI &gt;= 10%" name="excellent_roi" domain="[('roi', '>=', 10)]"/>
+                    <filter string="ROI 5-10%" name="good_roi" domain="[('roi', '>=', 5), ('roi', '&lt;', 10)]"/>
+                    <filter string="ROI &lt; 5%" name="low_roi" domain="[('roi', '&lt;', 5)]"/>
+                    <filter string="Bien Loué" name="rented" domain="[('occupancy_months', '>', 0)]"/>
+                    <filter string="Bien Vacant" name="vacant" domain="[('vacancy_rate', '>', 50)]"/>
+                    <separator/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Propriété" name="group_property" context="{'group_by': 'property_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Property Profitability Action -->
+        <record id="soya_property_profitability_action" model="ir.actions.act_window">
+            <field name="name">Analyse Rentabilité</field>
+            <field name="res_model">soya.property.profitability</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="soya_property_profitability_search_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aucune analyse de rentabilité disponible
+                </p>
+                <p>
+                    Visualisez la rentabilité détaillée de chaque propriété avec ROI et marges.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Report for Property Profitability -->
+        <record id="action_report_soya_profitability" model="ir.actions.report">
+            <field name="name">Rapport Rentabilité Propriété</field>
+            <field name="model">soya.property.profitability</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">soya_estate.report_profitability</field>
+            <field name="report_file">soya_estate.report_profitability</field>
+            <field name="print_report_name">'Rentabilité - %s' % (object.property_id.name)</field>
+            <field name="binding_model_id" ref="model_soya_property_profitability"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <!-- Template for Profitability Report -->
+        <template id="report_profitability">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h2>Analyse de Rentabilité</h2>
+                                    <p>
+                                        <strong>Propriété:</strong> <t t-esc="doc.property_id.name"/>
+                                    </p>
+                                    <p>
+                                        <strong>Type:</strong> <t t-esc="doc.property_id.property_type_id.name"/>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Informations Propriété</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Valeur Propriété</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Prix d'Acquisition</td>
+                                                <td><t t-esc="'%.2f €' % doc.property_acquisition_price"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Valeur Actuelle</td>
+                                                <td><t t-esc="'%.2f €' % doc.property_value"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Appréciation</td>
+                                                <td><t t-esc="'%.2f €' % doc.appreciation"/> (<t t-esc="'%.2f' % doc.appreciation_percentage"/>%)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Occupation</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Mois Occupés</td>
+                                                <td><t t-esc="doc.occupancy_months"/>/12</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Taux Vacance (%)</td>
+                                                <td><t t-esc="'%.2f' % doc.vacancy_rate"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Analyse Financière</h3>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Revenus</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Revenu Locatif</td>
+                                                <td><t t-esc="'%.2f €' % doc.total_rental_income"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Loyer Moyen Mensuel</td>
+                                                <td><t t-esc="'%.2f €' % doc.avg_monthly_rent"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Commissions Vente</td>
+                                                <td><t t-esc="'%.2f €' % doc.total_sale_commissions"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total Revenu</strong></td>
+                                                <td><strong><t t-esc="'%.2f €' % doc.total_revenue"/></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Charges</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Entretien</td>
+                                                <td><t t-esc="'%.2f €' % doc.maintenance_costs"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Taxes/Impôts</td>
+                                                <td><t t-esc="'%.2f €' % doc.tax_expenses"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Assurance</td>
+                                                <td><t t-esc="'%.2f €' % doc.insurance_costs"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Autres</td>
+                                                <td><t t-esc="'%.2f €' % doc.other_expenses"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total Charges</strong></td>
+                                                <td><strong><t t-esc="'%.2f €' % doc.total_expenses"/></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h3>Rentabilité</h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Indicateur</th>
+                                                <th>Valeur</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Profit Brut</strong></td>
+                                                <td><strong><t t-esc="'%.2f €' % doc.gross_profit"/></strong></td>
+                                                <td>Revenu - Charges</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Profit Net</strong></td>
+                                                <td><strong><t t-esc="'%.2f €' % doc.net_profit"/></strong></td>
+                                                <td>Profit après impôts</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Marge Bénéficiaire (%)</strong></td>
+                                                <td><strong><t t-esc="'%.2f' % doc.profit_margin"/>%</strong></td>
+                                                <td>Profit Net / Revenu Total</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>ROI (%)</strong></td>
+                                                <td><strong><t t-esc="'%.2f' % doc.roi"/>%</strong></td>
+                                                <td>Profit / Investissement initial</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>ROI Annualisé (%)</strong></td>
+                                                <td><strong><t t-esc="'%.2f' % doc.annualized_roi"/>%</strong></td>
+                                                <td>ROI * 12</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <strong>Résumé Exécutif:</strong> Cette propriété génère un ROI de <t t-esc="'%.2f' % doc.roi"/>% 
+                                        avec une marge bénéficiaire de <t t-esc="'%.2f' % doc.profit_margin"/>%. 
+                                        Le taux d'occupation est de <t t-esc="'%.0f' % (100 - doc.vacancy_rate)"/>%.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

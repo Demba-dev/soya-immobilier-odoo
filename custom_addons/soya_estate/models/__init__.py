@@ -16,3 +16,6 @@ from . import rent_scheduler
 from . import overdue_status
 from . import bank_reconciliation
 from . import payment_history
+from . import performance_kpi
+from . import property_profitability
+from . import market_analytics
