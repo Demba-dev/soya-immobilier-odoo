@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Portal Ticket Tree View -->
+        <record id="soya_portal_ticket_tree" model="ir.ui.view">
+            <field name="name">soya.portal.ticket.tree</field>
+            <field name="model">soya.portal.ticket</field>
+            <field name="arch" type="xml">
+                <tree string="Tickets de Support">
+                    <field name="name"/>
+                    <field name="subject"/>
+                    <field name="partner_id"/>
+                    <field name="category"/>
+                    <field name="state"/>
+                    <field name="priority"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Portal Ticket Form View -->
+        <record id="soya_portal_ticket_form" model="ir.ui.view">
+            <field name="name">soya.portal.ticket.form</field>
+            <field name="model">soya.portal.ticket</field>
+            <field name="arch" type="xml">
+                <form string="Ticket de Support">
+                    <header>
+                        <button name="action_mark_in_progress" string="Marquer en Cours" type="object" class="btn-primary"
+                            invisible="state!='open'"/>
+                            
+                        <button name="action_mark_resolved" string="Marquer Résolu" type="object" class="btn-success"
+                            invisible="state!='in_progress'"/>
+                            
+                        <button name="action_mark_closed" string="Fermer" type="object" class="btn-secondary"
+                            invisible="state!='resolved'"/>
+                            
+                        <button name="action_reopen" string="Rouvrir" type="object"
+                            invisible="state not in ['closed','resolved']"/>
+                            
+                        <field name="state" widget="statusbar" statusbar_visible="open,in_progress,resolved,closed"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Informations Générales">
+                                <field name="subject"/>
+                                <field name="partner_id"/>
+                                <field name="category"/>
+                                <field name="priority"/>
+                            </group>
+                            <group string="Assignation">
+                                <field name="assigned_to"/>
+                                <field name="create_date" readonly="1"/>
+                                <field name="resolution_date" readonly="1" invisible="state not in ['resolved','closed']"/>
+                            </group>
+                        </group>
+                        <group string="Lien Optionnel">
+                            <field name="property_id"/>
+                            <field name="contract_id"/>
+                        </group>
+                        <group string="Description">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Portal Ticket Search View -->
+        <record id="soya_portal_ticket_search" model="ir.ui.view">
+            <field name="name">soya.portal.ticket.search</field>
+            <field name="model">soya.portal.ticket</field>
+            <field name="arch" type="xml">
+                <search string="Tickets de Support">
+                    <field name="subject"/>
+                    <field name="partner_id"/>
+                    <field name="assigned_to"/>
+                    <separator/>
+                    <filter string="Ouverts" name="open_tickets" domain="[('state', '=', 'open')]"/>
+                    <filter string="En Cours" name="in_progress_tickets" domain="[('state', '=', 'in_progress')]"/>
+                    <filter string="Résolus" name="resolved_tickets" domain="[('state', '=', 'resolved')]"/>
+                    <separator/>
+                    <filter string="Urgent" name="urgent_tickets" domain="[('priority', '=', 'urgent')]"/>
+                    <filter string="Haute Priorité" name="high_priority" domain="[('priority', '=', 'high')]"/>
+                    <separator/>
+                    <group expand="0" string="Grouper par">
+                        <filter string="Catégorie" name="group_category" context="{'group_by': 'category'}"/>
+                        <filter string="État" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Priorité" name="group_priority" context="{'group_by': 'priority'}"/>
+                        <filter string="Client" name="group_partner" context="{'group_by': 'partner_id'}"/>
+                        <filter string="Assigné à" name="group_assigned" context="{'group_by': 'assigned_to'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Portal Ticket Action -->
+        <record id="soya_portal_ticket_action" model="ir.actions.act_window">
+            <field name="name">Tickets de Support</field>
+            <field name="res_model">soya.portal.ticket</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="soya_portal_ticket_search"/>
+        </record>
+
+    </data>
+</odoo>

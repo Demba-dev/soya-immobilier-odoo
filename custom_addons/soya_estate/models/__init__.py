@@ -19,3 +19,4 @@ from . import payment_history
 from . import performance_kpi
 from . import property_profitability
 from . import market_analytics
+from . import portal_ticket

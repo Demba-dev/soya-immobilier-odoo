@@ -35,5 +35,13 @@
             <field name="sequence">30</field>
             <field name="web_icon">fa-line-chart</field>
         </record>
+        <!-- Sous-menu report performance kpi -->
+        <record id="menu_report_performance_kpi" model="ir.ui.menu">
+            <field name="name">Rapport KPIs Performance</field>
+            <field name="parent_id" ref="menu_analytics_root"/>
+            <field name="action" ref="action_report_soya_performance_kpi"/>
+            <field name="sequence">50</field>
+            <field name="web_icon">fa-file-text-o</field>
+        </record>
     </data>
 </odoo>

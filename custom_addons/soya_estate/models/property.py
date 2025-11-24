@@ -206,7 +206,7 @@ class SoyaProperty(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Planifier Visite',
-            'res_model': 'soya.schedule.visit',
+            'res_model': 'soya.visit',
             'view_mode': 'form',
             'target': 'new',
             'context': {'default_property_id': self.id}

@@ -23,6 +23,7 @@
         'website',
         'board',
         'spreadsheet_dashboard',
+        'portal',
     ],
 
     
@@ -59,6 +60,7 @@
         'views/contract_views.xml',
         'views/contract_menus.xml',
         'views/dashboard_views.xml',
+        'views/dashboard_menus.xml',
         'views/financial_views.xml',
         'views/payment_views.xml',
         'views/overdue_status_views.xml',
@@ -71,10 +73,13 @@
         'report/performance_kpi_report.xml',
         'report/profitability_report.xml',
         'report/market_analytics_report.xml',
+        'views/portal_ticket_views.xml',
+        'views/portal_menus.xml',
         
         # ========================
         # 4. VUES WEB ET WIZARDS
         'views/property_web_templates.xml',
+        'views/portal_templates.xml',
         'wizards/close_property_views.xml',
         
         
@@ -82,6 +87,7 @@
 
     'demo': [
         'demo/property_type_demo.xml',
+        'demo/portal_demo.xml',
     ],
 
 

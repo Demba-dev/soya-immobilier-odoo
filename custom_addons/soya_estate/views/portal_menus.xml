@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <!-- Menu Portal Ticket -->
+        <record id="menu_portal_ticket_root" model="ir.ui.menu">
+            <field name="name">Tickets de Support</field>
+            <field name="parent_id" ref="menu_soya_estate_root"/>
+            <field name="sequence">20</field>
+            <field name="web_icon">fa-ticket</field>
+        </record>
+        <!-- Sous-menu Portal Ticket -->
+        <record id="menu_portal_ticket_list" model="ir.ui.menu">
+            <field name="name">Tickets de Support</field>
+            <field name="parent_id" ref="menu_portal_ticket_root"/>
+            <field name="action" ref="soya_portal_ticket_action"/>
+            <field name="sequence">10</field>
+            <field name="web_icon">fa-ticket</field>
+        </record>
+    </data>
+</odoo>

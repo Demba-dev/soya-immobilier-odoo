@@ -61,3 +61,7 @@ access_soya_property_profitability_manager,SOYA Property Profitability Manager,m
 access_soya_market_analytics_user,SOYA Market Analytics User,model_soya_market_analytics,group_soya_estate_user,1,0,0,0
 access_soya_market_analytics_agent,SOYA Market Analytics Agent,model_soya_market_analytics,group_soya_estate_agent,1,0,0,0
 access_soya_market_analytics_manager,SOYA Market Analytics Manager,model_soya_market_analytics,group_soya_estate_manager,1,1,1,0
+access_soya_portal_ticket_user,SOYA Portal Ticket User,model_soya_portal_ticket,group_soya_estate_user,1,0,0,0
+access_soya_portal_ticket_agent,SOYA Portal Ticket Agent,model_soya_portal_ticket,group_soya_estate_agent,1,1,1,0
+access_soya_portal_ticket_manager,SOYA Portal Ticket Manager,model_soya_portal_ticket,group_soya_estate_manager,1,1,1,1
+access_soya_portal_ticket_portal,SOYA Portal Ticket Portal,model_soya_portal_ticket,base.group_portal,1,1,1,0

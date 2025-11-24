@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Portal My Properties -->
+        <template id="portal_my_properties" name="Mes Biens Immobiliers">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <h2>Mes Biens Immobiliers</h2>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <t t-if="properties">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Nom du Bien</th>
+                                                <th>Quartier</th>
+                                                <th>Type</th>
+                                                <th>Prix Location/mois</th>
+                                                <th>Statut</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="properties" t-as="prop">
+                                                <td><t t-esc="prop.name"/></td>
+                                                <td><t t-esc="prop.quarter"/></td>
+                                                <td><t t-esc="prop.property_type_id.name"/></td>
+                                                <td><t t-esc="prop.rent_price"/></td>
+                                                <td>
+                                                    <span t-attf-class="badge badge-#{{'new': 'info', 'rented': 'success', 'maintenance': 'warning'}.get(prop.state, 'secondary')}">
+                                                        <t t-esc="dict(prop._fields['state'].selection).get(prop.state)"/>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a t-attf-href="/my/properties/#{prop.id}" class="btn btn-sm btn-info">
+                                                        <i class="fa fa-eye"/> Détails
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-else="">
+                            <div class="col-md-12">
+                                <p class="text-muted">Vous n'avez aucun bien immobilier.</p>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal Property Details -->
+        <template id="portal_property_details" name="Détails du Bien">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <h2><t t-esc="property.name"/></h2>
+                            <p class="text-muted"><t t-esc="property.street"/>, <t t-esc="property.quarter"/></p>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h4>Informations Générales</h4>
+                                    <dl class="row">
+                                        <dt class="col-sm-6">Type:</dt>
+                                        <dd class="col-sm-6"><t t-esc="property.property_type_id.name"/></dd>
+                                        <dt class="col-sm-6">Surface:</dt>
+                                        <dd class="col-sm-6"><t t-esc="property.total_area"/> m²</dd>
+                                        <dt class="col-sm-6">Chambres:</dt>
+                                        <dd class="col-sm-6"><t t-esc="property.bedrooms"/></dd>
+                                        <dt class="col-sm-6">Statut:</dt>
+                                        <dd class="col-sm-6">
+                                            <span t-attf-class="badge badge-#{{'new': 'info', 'rented': 'success'}.get(property.state, 'secondary')}">
+                                                <t t-esc="dict(property._fields['state'].selection).get(property.state)"/>
+                                            </span>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Loyer Actuel</h4>
+                                    <p class="display-4"><t t-esc="property.rent_price"/> FCFA/mois</p>
+                                </div>
+                            </div>
+
+                            <t t-if="current_rental">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h4>Location Actuelle</h4>
+                                        <dl class="row">
+                                            <dt class="col-sm-4">Locataire:</dt>
+                                            <dd class="col-sm-8"><t t-esc="current_rental.tenant_id.name"/></dd>
+                                            <dt class="col-sm-4">Début:</dt>
+                                            <dd class="col-sm-8"><t t-esc="current_rental.start_date"/></dd>
+                                            <dt class="col-sm-4">Fin Prévue:</dt>
+                                            <dd class="col-sm-8"><t t-esc="current_rental.end_date"/></dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-if="rental_history">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h4>Historique des Locations</h4>
+                                        <table class="table table-sm">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Locataire</th>
+                                                    <th>Début</th>
+                                                    <th>Fin</th>
+                                                    <th>Statut</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr t-foreach="rental_history[:10]" t-as="rental">
+                                                    <td><t t-esc="rental.tenant_id.name"/></td>
+                                                    <td><t t-esc="rental.start_date"/></td>
+                                                    <td><t t-esc="rental.end_date"/></td>
+                                                    <td>
+                                                        <span t-attf-class="badge badge-#{{'active': 'success', 'done': 'secondary'}.get(rental.state, 'warning')}">
+                                                            <t t-esc="dict(rental._fields['state'].selection).get(rental.state)"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-if="documents">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h4>Documents</h4>
+                                        <div class="list-group">
+                                            <t t-foreach="documents" t-as="doc">
+                                                <a t-attf-href="/my/documents/#{doc.id}/download" class="list-group-item list-group-item-action">
+                                                    <i class="fa fa-file"/> <t t-esc="doc.name"/>
+                                                </a>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal My Rentals -->
+        <template id="portal_my_rentals" name="Mes Locations">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <h2>Mes Locations</h2>
+                        </div>
+                    </div>
+
+                    <t t-if="current_rentals">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <h4>Locations Actuelles</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Bien</th>
+                                                <th>Propriétaire</th>
+                                                <th>Loyer</th>
+                                                <th>Début</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="current_rentals" t-as="rental">
+                                                <td><t t-esc="rental.property_id.name"/></td>
+                                                <td><t t-esc="rental.property_id.owner_id.name"/></td>
+                                                <td><t t-esc="rental.property_id.rent_price"/> FCFA</td>
+                                                <td><t t-esc="rental.start_date"/></td>
+                                                <td>
+                                                    <a t-attf-href="/my/rentals/#{rental.id}" class="btn btn-sm btn-info">
+                                                        <i class="fa fa-eye"/> Détails
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-if="past_rentals">
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <h4>Anciennes Locations</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Bien</th>
+                                                <th>Propriétaire</th>
+                                                <th>Fin</th>
+                                                <th>Statut</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="past_rentals" t-as="rental">
+                                                <td><t t-esc="rental.property_id.name"/></td>
+                                                <td><t t-esc="rental.property_id.owner_id.name"/></td>
+                                                <td><t t-esc="rental.end_date"/></td>
+                                                <td>
+                                                    <span t-attf-class="badge badge-#{{'done': 'success', 'cancelled': 'danger'}.get(rental.state, 'secondary')}">
+                                                        <t t-esc="dict(rental._fields['state'].selection).get(rental.state)"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+                    <t t-if="not current_rentals and not past_rentals">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <p class="text-muted">Vous n'avez aucune location.</p>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal Rental Details -->
+        <template id="portal_rental_details" name="Détails Location">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <h2><t t-esc="rental.property_id.name"/></h2>
+                            <p class="text-muted">Location depuis le <t t-esc="rental.start_date"/></p>
+
+                            <div class="row mt-4">
+                                <div class="col-md-6">
+                                    <h4>Détails du Contrat</h4>
+                                    <dl class="row">
+                                        <dt class="col-sm-6">Propriétaire:</dt>
+                                        <dd class="col-sm-6"><t t-esc="rental.property_id.owner_id.name"/></dd>
+                                        <dt class="col-sm-6">Loyer Mensuel:</dt>
+                                        <dd class="col-sm-6"><t t-esc="rental.property_id.rent_price"/> FCFA</dd>
+                                        <dt class="col-sm-6">Début:</dt>
+                                        <dd class="col-sm-6"><t t-esc="rental.start_date"/></dd>
+                                        <dt class="col-sm-6">Fin Prévue:</dt>
+                                        <dd class="col-sm-6"><t t-esc="rental.end_date"/></dd>
+                                        <dt class="col-sm-6">Durée:</dt>
+                                        <dd class="col-sm-6"><t t-esc="rental.duration_months"/> mois</dd>
+                                    </dl>
+                                </div>
+                                <div class="col-md-6">
+                                    <h4>Dépôt de Garantie</h4>
+                                    <p class="display-4"><t t-esc="rental.property_id.rental_deposit"/> FCFA</p>
+                                </div>
+                            </div>
+
+                            <t t-if="documents">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h4>Documents du Contrat</h4>
+                                        <div class="list-group">
+                                            <t t-foreach="documents" t-as="doc">
+                                                <a t-attf-href="/my/documents/#{doc.id}/download" class="list-group-item list-group-item-action">
+                                                    <i class="fa fa-file"/> <t t-esc="doc.name"/>
+                                                </a>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-if="payments">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <h4>Historique des Paiements</h4>
+                                        <table class="table table-sm">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Montant</th>
+                                                    <th>Méthode</th>
+                                                    <th>Statut</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr t-foreach="payments[:12]" t-as="payment">
+                                                    <td><t t-esc="payment.payment_date"/></td>
+                                                    <td><t t-esc="payment.amount"/> FCFA</td>
+                                                    <td><t t-esc="payment.payment_method"/></td>
+                                                    <td>
+                                                        <span t-attf-class="badge badge-#{{'done': 'success', 'pending': 'warning', 'failed': 'danger'}.get(payment.state, 'secondary')}">
+                                                            <t t-esc="dict(payment._fields['state'].selection).get(payment.state)"/>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal My Documents -->
+        <template id="portal_my_documents" name="Mes Documents">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <h2>Mes Documents</h2>
+                        </div>
+                    </div>
+
+                    <t t-if="documents">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="list-group">
+                                    <t t-foreach="documents" t-as="doc">
+                                        <div class="list-group-item">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <h6><t t-esc="doc.name"/></h6>
+                                                    <small class="text-muted">
+                                                        <span class="badge badge-info"><t t-esc="dict(doc._fields['document_type'].selection).get(doc.document_type)"/></span>
+                                                        - Uploadé le <t t-esc="doc.upload_date.strftime('%d/%m/%Y')"/>
+                                                    </small>
+                                                </div>
+                                                <a t-attf-href="/my/documents/#{doc.id}/download" class="btn btn-sm btn-primary">
+                                                    <i class="fa fa-download"/> Télécharger
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <p class="text-muted">Vous n'avez aucun document.</p>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal My Messages -->
+        <template id="portal_my_messages" name="Mes Messages">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h2>Mes Messages</h2>
+                                <a href="/my/messages/new" class="btn btn-primary">
+                                    <i class="fa fa-plus"/> Nouveau Message
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <t t-if="tickets">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="list-group">
+                                    <t t-foreach="tickets" t-as="ticket">
+                                        <a t-attf-href="/my/messages/#{ticket.id}" class="list-group-item list-group-item-action">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div>
+                                                    <h6><t t-esc="ticket.subject"/></h6>
+                                                    <small class="text-muted">
+                                                        <t t-esc="ticket.name"/> - <t t-esc="ticket.create_date.strftime('%d/%m/%Y %H:%M')"/>
+                                                    </small>
+                                                </div>
+                                                <span t-attf-class="badge badge-#{{'open': 'danger', 'in_progress': 'warning', 'resolved': 'success', 'closed': 'secondary'}.get(ticket.state, 'primary')}">
+                                                    <t t-esc="dict(ticket._fields['state'].selection).get(ticket.state)"/>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <p class="text-muted">Vous n'avez aucun message.</p>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal Message Details -->
+        <template id="portal_message_details" name="Détails du Message">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-8">
+                            <h2><t t-esc="ticket.subject"/></h2>
+                            <small class="text-muted">
+                                <t t-esc="ticket.name"/> - 
+                                <span t-attf-class="badge badge-#{{'open': 'danger', 'in_progress': 'warning', 'resolved': 'success', 'closed': 'secondary'}.get(ticket.state, 'primary')}">
+                                    <t t-esc="dict(ticket._fields['state'].selection).get(ticket.state)"/>
+                                </span>
+                            </small>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p><t t-esc="ticket.description"/></p>
+                                            <small class="text-muted">Créé le <t t-esc="ticket.create_date.strftime('%d/%m/%Y %H:%M')"/></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h4>Commentaires</h4>
+                                    <div id="comments_section">
+                                        <t t-foreach="ticket.message_ids.sorted(lambda m: m.create_date)" t-as="message">
+                                            <div class="card mb-2">
+                                                <div class="card-body">
+                                                    <p><t t-esc="message.body"/></p>
+                                                    <small class="text-muted">
+                                                        <strong><t t-esc="message.author_id.name"/></strong> - <t t-esc="message.create_date.strftime('%d/%m/%Y %H:%M')"/>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <t t-if="ticket.state != 'closed'">
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <form method="post" t-attf-action="/my/messages/#{ticket.id}/reply">
+                                            <div class="form-group">
+                                                <label for="message">Ajouter un Commentaire</label>
+                                                <textarea class="form-control" id="message" name="message" rows="5" required="required"></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Envoyer</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Portal New Message -->
+        <template id="portal_new_message" name="Nouveau Message">
+            <t t-call="portal.portal_layout">
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h2>Nouveau Message</h2>
+
+                            <form method="post" action="/my/messages/new" class="mt-4">
+                                <div class="form-group">
+                                    <label for="subject">Sujet</label>
+                                    <input type="text" class="form-control" id="subject" name="subject" required="required"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="8" required="required"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Envoyer</button>
+                                <a href="/my/messages" class="btn btn-secondary">Annuler</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</odoo>

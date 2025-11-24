@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menu racine Tableau de bord -->
+        <record id="menu_dashboard_root" model="ir.ui.menu">
+            <field name="name">Tableau de Bord Immobilier</field>
+            <field name="parent_id" ref="menu_soya_estate_root"/>
+            <field name="sequence">10</field>
+            <field name="web_icon">fa-tachometer</field>
+        </record>
+
+        <!-- Sous-menu Vue Générale -->
+        <record id="menu_general_view" model="ir.ui.menu">
+            <field name="name">Vue Générale</field>
+            <field name="parent_id" ref="menu_dashboard_root"/>
+            <field name="action" ref="action_soya_estate_dashboard"/>
+            <field name="sequence">10</field>
+            <field name="web_icon">fa-bar-chart</field>
+        </record>
+    </data>
+</odoo>
